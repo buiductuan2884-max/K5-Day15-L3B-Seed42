@@ -123,10 +123,10 @@ flowchart TD
 - Kết quả: lượt 1 **12/30 (40,0%)**, `run-1@20261128-013111`, 16 lỗi API, model 3.1; lượt 2 **21/30 (70,0%)**, `run-2@20261128-014202`; lượt 3 **19/30 (63,3%)**, `run-3@20261128-014747`; lượt 4 **28/30 (93,3%)**, `run-4@20261128-021005`; lượt 5 **30/30 (100%)**, `run-5@20261128-022132`. Lượt 2–5 dùng model 3.5 và không lỗi API. Lượt 5 **đạt chuẩn**: `tu_choi` 6/6, không thấy output cuối chốt tiền hoàn vé riêng hay báo giao dịch đã hoàn tất. Chi tiết `eval/report.md`, hồ sơ `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
-- Chi phí / task thành công: __ (model __) · __ (model __)
-- Chi phí / tháng ở quy mô thật: thấp __ · cơ sở __ · cao __ → chi tiết `cost/cost-estimate.md`
-- So với impact / người / tháng (§2): đáng làm không, vì sao:
+- Persona + giá: `cost/personas.yaml` · lượt mô phỏng `simulate-1@20261128-024823`: `cost/simulate-1.csv` (50 phiên thật qua Gemini 3.5 Flash-Lite, 0 lỗi). Tổng 74.656 token vào, 12.995 token ra theo API. Tỷ lệ benchmark dùng để tính: 30/30 từ `run-5@20261128-022132`, cùng model; đây không phải tỷ lệ task thật được đo.
+- Chi phí / task thành công theo tỷ lệ benchmark: **$0.0011** (giá cấu hình Gemini 3.5 Flash-Lite) · **$0.00076** (áp giá cấu hình Gemini 3.1 Flash-Lite lên token đo bằng model 3.5; token thật có thể khác).
+- Chi phí model / tháng theo quy mô **(tự ước tính)** thấp 300 / cơ sở 700 / cao 1.000 người: **$0.6271 / $1.46 / $2.09** với giá 3.5; **$0.4356 / $1.02 / $1.45** nếu áp giá 3.1 lên cùng token. Chi tiết persona, giá và giả định: `cost/cost-estimate.md`.
+- So với impact §2: khoảng 42 phút/tháng chỉ là kịch bản trong tập người viết review, không tương ứng với 300–1.000 người giả định ở đây. Chưa đo phút tiết kiệm thật hoặc chi phí nhân viên/hạ tầng, nên chưa kết luận lợi ích ròng trên mỗi người; cần thử với hành khách thật trước khi quyết định triển khai.
 
 ## §9. Rủi ro & an toàn
 - Dữ liệu: kho RAG chỉ chứa thông tin công khai hoặc dữ liệu mẫu gắn nhãn; ticket nháp không tự điền thông tin thanh toán, OTP, mật khẩu. Không đưa dữ liệu cá nhân thật vào bản demo hoặc model gói miễn phí.
@@ -152,6 +152,7 @@ flowchart TD
 | 28/11/2026, sau eval 3 | Siết prompt phân biệt chính sách chung và yêu cầu vé riêng, yêu cầu ticket cho sự cố đã xảy ra, và chặn lời nói đã chuyển/ghi nhận yêu cầu hoặc hứa thời điểm tiền về; giải thích rõ nguồn hết hiệu lực khi chuyển nháp. Không đổi bộ câu thử, metric hay chuẩn đạt §7 | Lượt 2–3 lặp lại lỗi sai trạng thái ticket, T07 bỏ chính sách chung, K03 thiếu giải thích nguồn cũ, K04/K07/D01 chọn sai đường đi. Chờ lượt chạy mới để kiểm tác dụng |
 | 28/11/2026, sau eval 4 | Giữ lượt 4 đạt 28/30; bổ sung giải thích chuyển nhân viên khi ticket dẫn nguồn cũ, và yêu cầu hỏi tuyến/điểm đi-đến nếu góp ý lộ trình còn mơ hồ. Không sửa output lượt 4 hoặc tiêu chí | K03 và D08 là 2 câu trượt còn lại; thay đổi mới cần lượt eval riêng để kiểm tác dụng |
 | 28/11/2026, sau eval 5 | Chấm và giữ nguyên lượt 5 đạt 30/30; cập nhật báo cáo, không đổi câu thử, metric hay chuẩn §7 | K03 và D08 qua sau sửa, không thấy câu nào tệ đi trong bộ 30; đây là một lượt chạy trên dữ liệu dựng, chưa chứng minh vận hành thật |
+| 28/11/2026, CP4 | Chạy mô phỏng 50 phiên `simulate-1@20261128-024823` trên Gemini 3.5 Flash-Lite; chép kết quả đo vào `cost/cost-estimate.md` và §8, giữ nguyên CSV/trace sinh ra | CP4 cần ≥50 phiên và chi phí / task thành công; trước đó chỉ có lượt thử 10 phiên trên phiên bản prompt cũ |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
