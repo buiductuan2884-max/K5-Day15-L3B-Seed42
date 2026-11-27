@@ -11,11 +11,21 @@ python run.py                      # chat; ticket nháp hiện ngay dưới câu
 python codebase/app.py selfcheck   # tự kiểm phần ticket, không cần model
 ```
 
+Giao diện web (tuỳ chọn), hai chế độ xem "Khách hàng" và "Trace / log" dùng chung một cuộc trò chuyện:
+
+```
+python -m pip install streamlit==1.67.0
+python -m streamlit run codebase/web.py
+python codebase/web.py selfcheck   # không cần Streamlit, không gọi model
+```
+
+Đưa web lên mạng để người khác mở bằng link: [docs/deploy-web.md](docs/deploy-web.md).
+
 Kịch bản demo (chạy được sau khi ghép luồng và dữ liệu):
 1. Hỏi một thông tin công khai (giờ chạy hoặc giá) → câu trả lời kèm nguồn.
 2. Xin hoàn tiền một vé → ticket nháp; sửa một ô, điền ô còn thiếu, gõ `gui` → màn hình báo là gửi mô phỏng.
 
-Hiện trạng: giao diện chat, ticket nháp, luồng `answer`, công cụ tra dữ liệu mẫu đã ghép; chạy chế độ giả cho đến khi cấu hình model trong `.env`.
+Hiện trạng: giao diện chat, ticket nháp, luồng `answer`, công cụ tra dữ liệu mẫu đã ghép. Nhóm đã chạy bộ 30 câu với Gemini 3.1 Flash-Lite (lượt 1) và Gemini 3.5 Flash-Lite (lượt 2–5); kết quả xem [eval/report.md](eval/report.md). Mỗi máy cần cấu hình Gemini trong `.env` cục bộ để chạy thật. Dữ liệu nhà xe vẫn là `synthetic`, ticket không được gửi đi đâu.
 
 ## Nhóm làm gì, khung làm gì
 
@@ -46,13 +56,13 @@ Gõ `dir` (Windows) hoặc `ls` (macOS / Linux): thấy `run.py` và `README.md`
 | Việc | Windows (PowerShell) | macOS / Linux |
 |---|---|---|
 | Kiểm Python | `python --version` (không được thì `py --version`) | `python3 --version` |
-| Chạy bản chạy thử (chế độ giả, chưa gọi model) | `python run.py` | `python3 run.py` |
+| Chạy bản chạy thử (Gemini nếu có `.env`, chế độ giả nếu chưa cấu hình) | `python run.py` | `python3 run.py` |
 | Kiểm bộ câu thử | `python run.py check` | `python3 run.py check` |
 | Tạo file `.env` để nối model | `copy .env.example .env` | `cp .env.example .env` |
 
 - Windows: gõ `python` mà mở Microsoft Store hoặc báo không có lệnh → dùng `py`. Chưa có Python: cài từ python.org, **tick "Add python.exe to PATH"**, mở lại PowerShell.
 - macOS: báo `command not found: python` là bình thường → dùng `python3`.
-- `python run.py` in ra "[câu trả lời giả — chưa nối model] …" là khung chạy đúng. Nối model thật: [docs/connect-model.md](docs/connect-model.md).
+- Nếu chưa cấu hình `.env`, bản chạy thử báo chế độ giả và không có câu trả lời có nguồn. Model hiện chọn: `MODEL_PROVIDER=gemini`, `MODEL_NAME=gemini-3.5-flash-lite`, `API_KEY` cục bộ; không commit key. Cách nối model: [docs/connect-model.md](docs/connect-model.md).
 
 Trong README này lệnh viết là `python …`; máy nhóm cần `python3` hay `py` thì gõ thay.
 
@@ -92,7 +102,7 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | Có code gọi API, **chưa chạy thật** | Chạy giả khi chưa cấu hình `.env`; phải thật từ CP3 |
+| Lời gọi AI ở quyết định trung tâm | Gemini 3.5 Flash-Lite đã chạy thật 30 câu/lượt trên lượt 2–3 | `eval/run-2.csv`, `eval/run-3.csv`; máy chưa có `.env` vẫn chạy giả |
 | Dữ liệu tuyến, giờ, giá, chính sách | Giả | Ghi nguồn và cách dựng ở `data/DATA_CARD.md` |
 | Gửi ticket cho nhân viên | Giả (mô phỏng) | Không gửi, không lưu |
 | Tra vé thật, giao dịch | Không có | Ngoài phạm vi |
@@ -131,5 +141,5 @@ Claude (coding agent) dựng repo, soạn nháp spec, canvas, slide, giao diện
 | 4 | Bản chạy thử làm trọn lát cắt | `codebase/` · lệnh ở mục "Lệnh" |
 | 5 | Định nghĩa "tốt" + bộ câu thử | `data/DATA_CARD.md` · `eval/` |
 | 6 | Mô phỏng chi phí khi dùng thật | `cost/` |
-| 7 | Slide + demo + video dự phòng | `demo-slides.pdf` ở thư mục gốc · link video: ____ |
+| 7 | Slide + demo + video dự phòng | `demo-slides.pdf` ở thư mục gốc · [video demo 28/11/2026](https://drive.google.com/file/d/1YafT1baeD-tflVr72UIzmWcEDYsqOsje/view) (`python run.py`, gemini-3.5-flash-lite) |
 | + | *Bonus:* người dùng thử | `validation/log.md` |

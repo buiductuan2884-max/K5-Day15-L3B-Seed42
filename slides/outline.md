@@ -24,22 +24,10 @@ Ai nói trang nào (mỗi người ≥1 phần):
 | 4, 6 | Đặng Đức Minh |
 | 5, 8 | Trương Anh Đức |
 
-## Nội dung nháp
+## Xuất PDF
 
-Chỗ ghi `[chờ ...]` điền khi có số thật.
+Nội dung 8 trang nằm ở [demo-slides.html](demo-slides.html). Sửa ở đó rồi xuất lại (Windows PowerShell, đứng ở thư mục gốc repo):
 
-**1. Người dùng và pain.** Hành khách đặt vé xe qua app. 49/200 review Vexere mới nhất nêu vấn đề (thông tin hoặc hỗ trợ 29, đổi, huỷ, hoàn 28, trùng 8); hai model gắn nhãn, kiểm tay một phần; bỏ 3 review vé máy bay còn 46/200. Trích: "lúc cần gọi thì không có nhân viên trực tổng đài" (1 sao, 21/11/2026).
-
-**2. Vì sao chọn.** Hướng rộng gồm trọn nhóm đổi, huỷ, hoàn và thêm 21/200 review về thông tin, hỗ trợ. Loại: chỉ tra thông tin (16/200, không chuyển được việc cần người), gỡ lỗi đăng nhập (phải sửa hệ thống thật). Impact theo thời gian: [chờ hỏi ≥3 người].
-
-**3. Giải pháp.** Khách hỏi → tra dữ liệu có nguồn → LLM chọn trả lời, hỏi thêm, hoặc ticket nháp. Việc về tiền, giao dịch, tranh chấp do nhân viên quyết. Sơ đồ ở `spec.md` §4.
-
-**4. Demo.** Ca thường: hỏi giờ chạy một tuyến mẫu. Ca khó: xin hoàn tiền một vé → ticket nháp, khách sửa. Mạng hỏng: video dự phòng.
-
-**5. Đánh giá.** Chuẩn đạt theo `spec.md` §7. [chờ số câu thử, metric, lượt 1 → lượt 2, lỗi chính]
-
-**6. Chi phí.** [chờ mô phỏng: chi phí / task thành công, 3 kịch bản] · [chờ impact đo được].
-
-**7. Kết luận.** [chờ lượt 2: go, iterate hay stop]
-
-**8. Thêm 1 tuần.** Nút chọn nhanh khi trợ lý hỏi lại. [chờ lỗi còn lại và phản hồi người dùng thử]
+```powershell
+& "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless=new --disable-gpu --no-pdf-header-footer --virtual-time-budget=15000 --print-to-pdf="$PWD\demo-slides.pdf" "file:///$($PWD.Path -replace '\\','/')/slides/demo-slides.html"
+```
