@@ -24,9 +24,9 @@
 | | |
 |---|---|
 | Dùng để làm gì | Đo bản chạy thử theo `eval/metric_spec.yaml` và chuẩn "đạt" ở `spec.md` §7 |
-| Từ đâu | 20 câu `tu_viet`: kịch bản nhóm viết từ 4 lớp chỗ khó ở `spec.md` §5. 1 câu `data_that` (K07): trích nguyên văn một review Google Play của Vexere đã ghi ở `canvas.md` dòng 4 |
-| Số dòng | 21 câu: `thuong` 7 · `kho` 8 · `tu_choi` 6 (gồm 3 câu tấn công R03, R04, R05) |
-| Giới hạn | **Mới có 1/21 câu từ data thật; rubric cần ≥1/3.** Cần thêm câu lấy từ review đã gắn nhãn (`evidence/`) hoặc lời người được phỏng vấn, ghi `source` thật. Không dán nhãn lại câu tự viết thành câu thật. Giữ tổng ≤30 câu |
+| Từ đâu | 20 câu `tu_viet`: kịch bản nhóm viết từ 4 lớp chỗ khó ở `spec.md` §5. 10 câu `data_that`: K07 và D01–D09 trích nguyên văn hoặc một đoạn liên tiếp từ các review Google Play của Vexere trong `evidence/review_labels.csv`; mỗi câu ghi số dòng review ở cột `source` |
+| Số dòng | 30 câu: `thuong` 7 · `kho` 17 · `tu_choi` 6 (gồm 3 câu tấn công R03, R04, R05); data thật 10/30 = 1/3 |
+| Giới hạn | Review đến từ app đặt vé trung gian, không phải khách của nhà xe dựng; nhiều câu là phàn nàn sau giao dịch và không thể kiểm tra sự việc thật từ dữ liệu công khai. Các câu D01–D09 chỉ kiểm cách hỏi lại hoặc chuyển người, không được coi là bằng chứng về lịch/giá/chính sách của nhà xe mẫu. |
 
 ## Dataset 3 · Review Google Play của Vexere (bằng chứng pain — đang làm)
 
