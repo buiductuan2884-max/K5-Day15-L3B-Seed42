@@ -3,13 +3,26 @@
 ## Đầu vào và trạng thái đo
 
 - Persona và số phiên trong [personas.yaml](personas.yaml): 50 phiên, seed 42. Tỷ lệ persona 50% / 30% / 20%, tần suất 1 / 2 / 3 phiên mỗi tháng và 1 / 2 / 3 lượt mỗi phiên đều **(tự ước tính)**. Các câu hỏi mô phỏng là tình huống tổng hợp, không phải lời khách thật.
-- Quy mô 300 / 700 / 1.000 người dùng mỗi tháng (thấp / cơ sở / cao) đều **(tự ước tính)**; chưa có dữ liệu sử dụng của nhà xe. Không suy ra các số này từ 55/440 review vì số đó chỉ liên quan phàn nàn đổi, hủy và hoàn vé.
+- Quy mô 300 / 700 / 1.000 người dùng mỗi tháng (thấp / cơ sở / cao) đều **(tự ước tính)**; chưa có dữ liệu sử dụng của nhà xe. Không suy ra các số này từ số review đã đếm trong `evidence/`.
 - Giá Standard USD trên 1 triệu token, không tính cache: model được chọn `gemini-3.5-flash-lite` $0.30 vào / $2.50 ra; đối chiếu `gemini-3.1-flash-lite` $0.25 vào / $1.50 ra theo [bảng giá Gemini API](https://ai.google.dev/gemini-api/docs/pricing). Xem ngày 28/11/2026. Giá có thể thay đổi trước lúc chạy.
 - **Đã kiểm kết nối model:** một lời gọi Gemini 3.1 Flash-Lite do thành viên nhóm chạy trả JSON với 13 token vào và 9 token ra theo usage của API. Đây chỉ là smoke test, không phải lượt eval hay mẫu mô phỏng chi phí.
 - **Token eval thật, tách khỏi mô phỏng:** lượt `run-1@20261128-013111` có 14/30 câu nhận output của Gemini 3.1 Flash-Lite, tổng 9.292 token vào và 2.400 token ra theo usage API. 16 câu lỗi kỹ thuật không có token usage được ghi. Lượt thử mô phỏng 10 phiên dùng model 3.5 và được tính riêng bên dưới.
 - **Tỷ lệ đạt:** lượt 1 trên Gemini 3.1 Flash-Lite là 12/30 (40,0%) với 16 lỗi API; lượt 2–5 trên Gemini 3.5 Flash-Lite lần lượt là 21/30, 19/30, 28/30 và **30/30**, đều không lỗi API. Lượt 5 qua chuẩn §7 trên bộ câu thử dựng. Không gán chênh lệch giữa lượt 1 và lượt 2 cho một nguyên nhân duy nhất: model và điều kiện gọi API đều thay đổi. Xem `eval/report.md`.
 
 ## Kết quả mô phỏng
+
+### Số nộp CP4: `simulate-2@20261128-045850`, tỷ lệ đạt lượt 2
+
+50 phiên thật qua API Gemini 3.5 Flash-Lite, seed 42, `python run.py simulate --rate-from eval/run-2.csv --wait 10`: 0 phiên lỗi, 74.656 token vào, 13.216 token ra. Tỷ lệ đạt **21/30 (70%)** của `run-2@20261128-014202`. Dữ liệu: [simulate-2.csv](simulate-2.csv), tóm tắt tự sinh: [simulate-2-summary.md](simulate-2-summary.md).
+
+| Model dùng để tính giá | Chi phí / phiên | Chi phí / task thành công | Chi phí / câu hỏi đạt | Tháng thấp (300 người) | Tháng cơ sở (700 người) | Tháng cao (1.000 người) |
+|---|---:|---:|---:|---:|---:|---:|
+| Gemini 3.5 Flash-Lite | $0.0011 | **$0.0016** | $0.00089 | $0.6377 | $1.49 | $2.13 |
+| Gemini 3.1 Flash-Lite (áp giá lên token 3.5) | $0.00077 | $0.0011 | $0.00062 | $0.4420 | $1.03 | $1.47 |
+
+Lượt 2 chạy trước các sửa prompt sau đó, còn token đo bằng code hiện tại; dùng tỷ lệ này vì đề yêu cầu và vì nó thận trọng hơn. Phần dưới giữ số theo lượt 5 để đối chiếu.
+
+### Đối chiếu: lượt thử và mô phỏng theo lượt 5
 
 Lượt thử `simulate-try@20261128-015325` đã chạy 10 phiên với Gemini 3.5 Flash-Lite, không có phiên lỗi: tổng **10.285 token vào, 2.313 token ra** theo usage API (trung bình 1.029 / 231 token mỗi phiên). Theo giá Standard đã kiểm, chi phí model cho 10 phiên là **$0.00887**, trung bình **$0.000887 / phiên**. Đây là phép tính lại trên token của lượt thử, vì file tóm tắt tự sinh trước khi cập nhật `cost/personas.yaml` vẫn ghi bảng giá 3.1 Flash-Lite và 3 Flash Preview. Không sửa file tóm tắt đã sinh. Lượt thử này chạy **trước** các sửa prompt dẫn tới eval 4–5, nên token/phiên của phiên bản hiện tại cần đo lại.
 

@@ -123,9 +123,9 @@ flowchart TD
 - Kết quả: lượt 1 **12/30 (40,0%)**, `run-1@20261128-013111`, 16 lỗi API, model 3.1; lượt 2 **21/30 (70,0%)**, `run-2@20261128-014202`; lượt 3 **19/30 (63,3%)**, `run-3@20261128-014747`; lượt 4 **28/30 (93,3%)**, `run-4@20261128-021005`; lượt 5 **30/30 (100%)**, `run-5@20261128-022132`. Lượt 2–5 dùng model 3.5 và không lỗi API. Lượt 5 **đạt chuẩn**: `tu_choi` 6/6, không thấy output cuối chốt tiền hoàn vé riêng hay báo giao dịch đã hoàn tất. Chi tiết `eval/report.md`, hồ sơ `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Persona + giá: `cost/personas.yaml` · lượt mô phỏng `simulate-1@20261128-024823`: `cost/simulate-1.csv` (50 phiên thật qua Gemini 3.5 Flash-Lite, 0 lỗi). Tổng 74.656 token vào, 12.995 token ra theo API. Tỷ lệ benchmark dùng để tính: 30/30 từ `run-5@20261128-022132`, cùng model; đây không phải tỷ lệ task thật được đo.
-- Chi phí / task thành công theo tỷ lệ benchmark: **$0.0011** (giá cấu hình Gemini 3.5 Flash-Lite) · **$0.00076** (áp giá cấu hình Gemini 3.1 Flash-Lite lên token đo bằng model 3.5; token thật có thể khác).
-- Chi phí model / tháng theo quy mô **(tự ước tính)** thấp 300 / cơ sở 700 / cao 1.000 người: **$0.6271 / $1.46 / $2.09** với giá 3.5; **$0.4356 / $1.02 / $1.45** nếu áp giá 3.1 lên cùng token. Chi tiết persona, giá và giả định: `cost/cost-estimate.md`.
+- Persona + giá: `cost/personas.yaml` · lượt mô phỏng `simulate-2@20261128-045850`: `cost/simulate-2.csv` (50 phiên thật qua Gemini 3.5 Flash-Lite, 0 lỗi), chạy bằng `python run.py simulate --rate-from eval/run-2.csv --wait 10`. Tổng 74.656 token vào, 13.216 token ra theo API. Tỷ lệ đạt dùng để tính: **21/30** của lượt 2 `run-2@20261128-014202`, cùng model; đây không phải tỷ lệ task thật được đo.
+- Chi phí / phiên **$0.0011**; chi phí / task thành công **$0.0016** (giá cấu hình Gemini 3.5 Flash-Lite) · **$0.0011** (áp giá Gemini 3.1 Flash-Lite lên token đo bằng model 3.5; token thật có thể khác). Tham khảo: theo tỷ lệ lượt 5 (30/30), mô phỏng `simulate-1@20261128-024823` ra $0.0011 / task.
+- Chi phí model / tháng theo quy mô **(tự ước tính)** thấp 300 / cơ sở 700 / cao 1.000 người: **$0.6377 / $1.49 / $2.13** với giá 3.5; **$0.4420 / $1.03 / $1.47** nếu áp giá 3.1 lên cùng token. Chi tiết persona, giá và giả định: `cost/cost-estimate.md`.
 - So với impact §2: khoảng 42 phút/tháng chỉ là kịch bản trong tập người viết review, không tương ứng với 300–1.000 người giả định ở đây. Chưa đo phút tiết kiệm thật hoặc chi phí nhân viên/hạ tầng, nên chưa kết luận lợi ích ròng trên mỗi người; cần thử với hành khách thật trước khi quyết định triển khai.
 
 ## §9. Rủi ro & an toàn
@@ -154,6 +154,8 @@ flowchart TD
 | 28/11/2026, sau eval 5 | Chấm và giữ nguyên lượt 5 đạt 30/30; cập nhật báo cáo, không đổi câu thử, metric hay chuẩn §7 | K03 và D08 qua sau sửa, không thấy câu nào tệ đi trong bộ 30; đây là một lượt chạy trên dữ liệu dựng, chưa chứng minh vận hành thật |
 | 28/11/2026, CP4 | Chạy mô phỏng 50 phiên `simulate-1@20261128-024823` trên Gemini 3.5 Flash-Lite; chép kết quả đo vào `cost/cost-estimate.md` và §8, giữ nguyên CSV/trace sinh ra | CP4 cần ≥50 phiên và chi phí / task thành công; trước đó chỉ có lượt thử 10 phiên trên phiên bản prompt cũ |
 | 28/11/2026, CP4 | Điền phòng D305, Zone 1, đội #7 ở đầu spec và trang bìa slide | Đã có thông tin xếp phòng; trước đó để trống |
+| 28/11/2026, CP4 | Chạy lại mô phỏng 50 phiên `simulate-2@20261128-045850` lấy tỷ lệ đạt lượt 2 (21/30); chi phí / task thành công ghi $0.0016; cập nhật §8, `cost/cost-estimate.md` và slide. Giữ nguyên `simulate-1` | Đề CP4 yêu cầu tỷ lệ đạt của lượt 2; bản trước tính theo lượt 5 |
+| 28/11/2026, CP4 | Lớp lọc giao diện chặn mã 3 chữ số sau `otp`, `pin` (`codebase/app.py`); không đổi luồng model, câu thử hay metric | Thử tay thấy `otp 345` được gửi sang model |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
