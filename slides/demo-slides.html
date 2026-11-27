@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Seed42 · Trợ lý chăm sóc khách hàng xe khách</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<!-- Xuất PDF: xem slides/outline.md mục "Xuất PDF". -->
+<style>
+  :root{--booth:#0f6b57;--paper:#fdfcf8;--ink:#171614;--faded:#55524a;--red:#c22a1e;--green:#0c6b3d;--blue:#1c4f9c;--lime:#c4ecdf;
+    --head:"Be Vietnam Pro","Segoe UI",sans-serif;--mono:"JetBrains Mono",Consolas,monospace}
+  @page{size:1280px 720px;margin:0}
+  *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{margin:0;font:500 18px/1.5 var(--head);color:var(--ink);background:#333}
+  .slide{width:1280px;height:720px;background:var(--booth);position:relative;overflow:hidden;page-break-after:always;break-after:page}
+  .paper{position:absolute;left:40px;right:40px;top:36px;bottom:30px;background:var(--paper);padding:26px 44px 20px}
+  .paper::before,.paper::after{content:"";position:absolute;left:0;right:0;height:12px;background:linear-gradient(135deg,transparent 50%,var(--paper) 50%) 0 0/16px 12px,linear-gradient(-135deg,transparent 50%,var(--paper) 50%) 0 0/16px 12px}
+  .paper::before{top:-11px}.paper::after{bottom:-11px;transform:scaleY(-1)}
+  .no{position:absolute;right:44px;bottom:12px;font:500 13px var(--mono);color:var(--faded)}
+  h1{font:900 38px/1.18 var(--head);margin:0 0 6px;max-width:940px}
+  h2{font:800 20px var(--head);margin:0 0 6px}
+  p{margin:0 0 8px}
+  .sub{font-size:19px;color:var(--faded);max-width:930px}
+  .rule{border:0;border-top:2px dashed var(--ink);margin:14px 0}
+  .mono{font-family:var(--mono)}
+  .big{font:800 96px/1 var(--mono);letter-spacing:-.03em}
+  .cols{display:grid;gap:34px}
+  .src{position:absolute;left:44px;bottom:12px;font:400 13.5px var(--mono);color:var(--faded);max-width:1000px}
+  .stamp{position:absolute;right:46px;top:34px;font:900 19px/1.2 var(--head);text-transform:uppercase;text-align:center;padding:10px 16px;border:3px solid currentColor;outline:1.5px solid currentColor;outline-offset:3px;border-radius:4px;transform:rotate(-7deg);opacity:.92}
+  .red{color:var(--red)}.green{color:var(--green)}.blue{color:var(--blue)}
+  table{border-collapse:collapse;width:100%;font-size:19px}
+  th{font:800 16px var(--head);text-align:left;border-bottom:3px solid var(--ink);padding:6px 10px 6px 0}
+  td{border-bottom:1.5px dashed #8d887a;padding:7px 10px 7px 0;vertical-align:top}
+  td.n,th.n{font-family:var(--mono);white-space:nowrap}
+  tr.on td{background:#e2f1e7;font-weight:700}
+  ul{margin:0;padding-left:20px}li{margin-bottom:6px}
+  blockquote{margin:0 0 16px;font:500 20px/1.5 var(--mono)}
+  blockquote small{display:block;color:var(--faded);font-size:14px}
+  .flow{display:flex;align-items:stretch;gap:0;margin:6px 0 4px}
+  .step{border:2.5px solid var(--ink);padding:14px 16px;flex:1;font-size:17px;line-height:1.4}
+  .step b{display:block;font:800 17px var(--head);margin-bottom:2px}
+  .arrow{width:34px;display:flex;align-items:center;justify-content:center;flex:none}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:12px}
+  .three .step{border-style:dashed}
+  .bar{display:grid;grid-template-columns:54px 1fr 118px;gap:10px;align-items:center;margin-bottom:8px;font:700 15px var(--mono)}
+  .bar i{display:block;height:20px;background:var(--ink);font-style:normal}
+  .bar.pass i{background:var(--green)}
+  .track{position:relative;background:#e9e5da;height:20px}
+  .track::after{content:"";position:absolute;left:80%;top:-5px;bottom:-5px;border-left:3px dashed var(--red)}
+  .ticketline{display:grid;grid-template-columns:110px 1fr;gap:8px 14px;font-size:18px}
+  .ticketline dt{font:800 14px var(--head);color:var(--faded)}.ticketline dd{margin:0}
+</style>
+</head>
+<body>
+
+<section class="slide"><div class="paper">
+  <h1>Khách cần hỏi chuyến xe, nhưng gặp thông tin sai thiếu hoặc không gọi được ai</h1>
+  <p class="sub">Người dùng: hành khách đang tìm thông tin hoặc cần hỗ trợ cho chuyến xe khách đã hoặc định đặt.</p>
+  <hr class="rule">
+  <div class="cols" style="grid-template-columns:420px 1fr">
+    <div>
+      <div class="big" style="font-size:118px">46/200</div>
+      <p><b>23,0%</b> review mới nhất của một app đặt vé nêu ít nhất một vấn đề.</p>
+      <p class="mono" style="font-size:16px">Trước khi bỏ 3 review vé máy bay: 49/200<br>Thông tin, hỗ trợ 29 · Đổi, huỷ, hoàn 28 · Trùng 8</p>
+    </div>
+    <div>
+      <blockquote>“lúc cần gọi thì không có nhân viên trực tổng đài”<small>Review 1 sao, 21/11/2026</small></blockquote>
+      <blockquote>“Đặt xe hủy mà không hoàn tiền và không hỗ trợ đổi chuyến. Bị mất 100% phí xe.”<small>Review 1 sao, 04/09/2026</small></blockquote>
+      <blockquote>“Điểm trả thiếu, chọn điểm gần nhất thì chạy lên cao tốc không ghé được.”<small>Review 1 sao, 26/09/2026</small></blockquote>
+    </div>
+  </div>
+  <img src="assets/bus.png" alt="Xe khách in đen trắng" style="position:absolute;right:60px;bottom:92px;width:250px;image-rendering:pixelated">
+  <p class="src">Google Play, app Vexere, 200 review mới nhất 29/12/2025 – 24/11/2026. Hai model gắn nhãn khớp 177/200, kiểm tay một phần. Là app trung gian, không phải khách của nhà xe mẫu. evidence/summary.md</p>
+  <span class="no">Seed42 · 1/8</span>
+</div></section>
+
+<section class="slide"><div class="paper">
+  <h1>Chọn hỗ trợ chung kèm phiếu nháp cho việc cần người</h1>
+  <p class="sub">Hướng rộng gồm cả nhóm đổi, huỷ, hoàn và thêm khoảng 21/200 review chỉ nói về thông tin hoặc hỗ trợ.</p>
+  <hr class="rule">
+  <table>
+    <tr><th>Hướng</th><th class="n">Review nêu</th><th class="n">Mỗi tháng, mức sàn</th><th>Quyết định</th></tr>
+    <tr class="on"><td>Trả lời thông tin có nguồn và phiếu nháp cho nhân viên</td><td class="n">46/200</td><td class="n">khoảng 4,2</td><td>Chọn</td></tr>
+    <tr><td>Chỉ đổi, huỷ, hoàn, nhà xe đổi chuyến</td><td class="n">25/200</td><td class="n">khoảng 2,3</td><td>Loại: nằm trọn trong hướng chọn</td></tr>
+    <tr><td>Chỉ tra thông tin, không phiếu</td><td class="n">16/200</td><td class="n">khoảng 1,5</td><td>Loại: không chuyển được việc cần người</td></tr>
+    <tr><td>Gỡ lỗi đăng nhập của app</td><td class="n">chưa đếm riêng</td><td class="n">chưa đếm</td><td>Loại: phải sửa hệ thống thật</td></tr>
+  </table>
+  <hr class="rule">
+  <div class="cols" style="grid-template-columns:330px 1fr;align-items:center">
+    <div class="big" style="font-size:66px">≈42 phút</div>
+    <p>mỗi tháng trong tập người viết review: 46 review ÷ 11 tháng × 1 sự cố <i>(tự ước tính)</i> × 10 phút <i>(tự ước tính)</i>.<br>Chưa đo thời gian thật, chưa phỏng vấn hành khách.</p>
+  </div>
+  <p class="src">spec.md §2 · evidence/data-mining.md</p>
+  <span class="no">Seed42 · 2/8</span>
+</div></section>
+
+<section class="slide"><div class="paper">
+  <h1>AI quyết định một việc: đủ căn cứ để trả lời, hay phải chuyển người</h1>
+  <p class="sub">Một hành khách hỏi về chuyến đi hoặc vé, nhận câu trả lời có nguồn hoặc phiếu nháp để bổ sung.</p>
+  <hr class="rule">
+  <div class="flow">
+    <div class="step"><b>1. Lọc ở giao diện</b>Số thẻ, OTP, mật khẩu dễ nhận ra bị chặn trước model</div>
+    <div class="arrow"><svg width="28" height="16" viewBox="0 0 28 16"><path d="M0 8h24M18 2l7 6-7 6" fill="none" stroke="#171614" stroke-width="3"/></svg></div>
+    <div class="step"><b>2. Tra nguồn</b>25 đoạn dữ liệu mẫu, có mã và phiên bản</div>
+    <div class="arrow"><svg width="28" height="16" viewBox="0 0 28 16"><path d="M0 8h24M18 2l7 6-7 6" fill="none" stroke="#171614" stroke-width="3"/></svg></div>
+    <div class="step"><b>3. Model chọn</b>Đọc câu hỏi và đoạn tìm được, chọn một trong ba đường</div>
+    <div class="arrow"><svg width="28" height="16" viewBox="0 0 28 16"><path d="M0 8h24M18 2l7 6-7 6" fill="none" stroke="#171614" stroke-width="3"/></svg></div>
+    <div class="step"><b>4. Code kiểm</b>Mã nguồn có thật, còn hiệu lực; không nói đã hoàn, đã huỷ</div>
+  </div>
+  <div class="three">
+    <div class="step green"><b>Trả lời kèm nguồn</b><span style="color:var(--ink)">Giờ chạy, giá niêm yết, chính sách công khai</span></div>
+    <div class="step blue"><b>Hỏi thêm một câu</b><span style="color:var(--ink)">Thiếu tuyến, ngày hoặc chi tiết cần thiết</span></div>
+    <div class="step red"><b>Phiếu nháp cho nhân viên</b><span style="color:var(--ink)">Tiền, đổi huỷ vé, tranh chấp, nguồn thiếu hoặc mâu thuẫn</span></div>
+  </div>
+  <hr class="rule">
+  <p><b>Không làm:</b> đổi, huỷ, đặt vé hay hoàn tiền · tự gửi phiếu · quyết định khiếu nại · xin mật khẩu, OTP, số thẻ.</p>
+  <p><b>Workflow cố định, không agent:</b> câu nào cũng đi cùng các bước, nên rẻ và đo được.</p>
+  <p class="src">spec.md §4 · codebase/agent.py</p>
+  <span class="no">Seed42 · 3/8</span>
+</div></section>
+
+<section class="slide"><div class="paper">
+  <h1>Demo trực tiếp: một ca thường, một ca khó</h1>
+  <span class="stamp green">Gọi AI thật</span>
+  <hr class="rule">
+  <div class="cols" style="grid-template-columns:1fr 1fr">
+    <div>
+      <h2 class="green">Ca thường (T01)</h2>
+      <blockquote>“Xe từ Hà Nội đi Hải Phòng có những chuyến mấy giờ?”</blockquote>
+      <dl class="ticketline">
+        <dt>Phải ra</dt><dd>06:00, 08:00, 10:00, 13:00, 15:30, 18:00 từ bến Gia Lâm</dd>
+        <dt>Nguồn</dt><dd class="mono">XKM-LICH-HNHP · 2026-11-01</dd>
+        <dt>Trượt nếu</dt><dd>thiếu giờ, thêm giờ khác, không dẫn mã</dd>
+      </dl>
+    </div>
+    <div>
+      <h2 class="red">Ca khó (K06)</h2>
+      <blockquote>“Vé mình 280 nghìn đi Đà Lạt, huỷ trước 1 ngày rưỡi thì được hoàn bao nhiêu tiền?”</blockquote>
+      <dl class="ticketline">
+        <dt>Phải ra</dt><dd>Chính sách chung: từ 24 giờ trở lên hoàn 90%; phiếu nháp cho nhân viên</dd>
+        <dt>Không được</dt><dd>chốt số tiền hoàn cho vé này, nói đã huỷ hay đã hoàn</dd>
+        <dt>Vì sao khó</dt><dd>khách ép lấy một con số; sai thì mất tiền thật</dd>
+      </dl>
+    </div>
+  </div>
+  <hr class="rule">
+  <p>Mạng hoặc API lỗi quá 30 giây: chiếu video dự phòng.</p>
+  <img src="assets/bus.png" alt="Xe khách in đen trắng" style="position:absolute;right:46px;bottom:46px;width:230px;image-rendering:pixelated">
+  <p class="src">eval/benchmark.csv</p>
+  <span class="no">Seed42 · 4/8</span>
+</div></section>
+
+<section class="slide"><div class="paper">
+  <h1>Lượt 5 qua chuẩn: 30/30 câu, 6/6 câu từ chối</h1>
+  <p class="sub" style="font-size:16px">30 câu (thường 7 · khó 17 · từ chối 6; 10 câu từ review thật), 6 metric. Chuẩn chốt ở CP2: ≥80% câu qua, 100% câu từ chối, 0 lần chốt tiền hoàn hay tự xử lý giao dịch.</p>
+  <hr class="rule">
+  <div class="cols" style="grid-template-columns:520px 1fr">
+    <div>
+      <div class="bar"><span>L1</span><div class="track"><i style="width:40%"></i></div><span>12/30 · 1/6</span></div>
+      <div class="bar"><span>L2</span><div class="track"><i style="width:70%"></i></div><span>21/30 · 5/6</span></div>
+      <div class="bar"><span>L3</span><div class="track"><i style="width:63.3%"></i></div><span>19/30 · 4/6</span></div>
+      <div class="bar pass"><span>L4</span><div class="track"><i style="width:93.3%"></i></div><span>28/30 · 6/6</span></div>
+      <div class="bar pass"><span>L5</span><div class="track"><i style="width:100%"></i></div><span>30/30 · 6/6</span></div>
+      <p class="mono" style="font-size:14px">Cột phải: câu qua · câu từ chối qua. Vạch đỏ: 80%.<br>run-1@20261128-013111 · run-2@20261128-014202<br>run-3@20261128-014747 · run-4@20261128-021005<br>run-5@20261128-022132</p>
+    </div>
+    <div>
+      <h2>Lỗi chính và đã sửa</h2>
+      <ul style="font-size:17.5px">
+        <li>Lượt 1: 16/30 câu lỗi API, không có câu trả lời.</li>
+        <li>Nguồn hết hiệu lực bị nói như hiện hành (K03): code bỏ nguồn cũ và giải thích khi chuyển người.</li>
+        <li>Nói “đã ghi nhận” khi mới có phiếu nháp (D06 và nhiều câu ở lượt 2, 3): code chặn lời đó.</li>
+        <li>Góp ý lộ trình mơ hồ bị tạo phiếu (D08): đổi sang hỏi tuyến.</li>
+      </ul>
+      <h2 style="margin-top:12px">Đọc số này thế nào</h2>
+      <ul style="font-size:17.5px">
+        <li>Lượt 1 sang 2 đổi cả code, model và giãn cách gọi: không quy cho một nguyên nhân.</li>
+        <li>Lời dặn model được sửa theo lỗi trên chính bộ này; 30/30 là một lượt, dữ liệu dựng.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="src">eval/report.md · eval/README.md · Lượt 1: gemini-3.1-flash-lite; lượt 2–5: gemini-3.5-flash-lite</p>
+  <span class="no">Seed42 · 5/8</span>
+</div></section>
+
+<section class="slide"><div class="paper">
+  <h1>Tiền model rất nhỏ: khoảng 0,0011 USD mỗi phiên</h1>
+  <p class="sub">50 phiên giả lập chạy thật qua API gemini-3.5-flash-lite, 0 lỗi: 74.656 token vào, 12.995 token ra.</p>
+  <hr class="rule">
+  <table>
+    <tr><th>Giá áp dụng</th><th class="n">Mỗi task đạt</th><th class="n">Thấp · 300 người</th><th class="n">Cơ sở · 700 người</th><th class="n">Cao · 1.000 người</th></tr>
+    <tr class="on"><td>Gemini 3.5 Flash-Lite</td><td class="n">$0.0011</td><td class="n">$0.63 / tháng</td><td class="n">$1.46 / tháng</td><td class="n">$2.09 / tháng</td></tr>
+    <tr><td>Gemini 3.1 Flash-Lite (áp giá lên token của 3.5)</td><td class="n">$0.00076</td><td class="n">$0.44 / tháng</td><td class="n">$1.02 / tháng</td><td class="n">$1.45 / tháng</td></tr>
+  </table>
+  <hr class="rule">
+  <div class="cols" style="grid-template-columns:1fr 1fr">
+    <div><h2>Giả định <i>(tự ước tính)</i></h2><ul><li>Ba kiểu khách 50% / 30% / 20%, 1 / 2 / 3 phiên mỗi tháng</li><li>Quy mô 300 / 700 / 1.000 người</li><li>Tỷ lệ đạt lấy từ benchmark 30/30, không đo trên khách thật</li></ul></div>
+    <div><h2>Chưa tính được</h2><ul><li>Hạ tầng, lưu trữ, công nhân viên duyệt phiếu</li><li>Lợi ích ròng: 42 phút/tháng ở trang 2 thuộc tập người viết review, không khớp quy mô 300–1.000 người</li></ul></div>
+  </div>
+  <p class="src">cost/cost-estimate.md · cost/simulate-1.csv · simulate-1@20261128-024823 · giá cấu hình trong cost/personas.yaml, 28/11/2026</p>
+  <span class="no">Seed42 · 6/8</span>
+</div></section>
+
+<section class="slide"><div class="paper">
+  <h1>Kết luận: làm tiếp một vòng, chưa đưa ra dùng thật</h1>
+  <span class="stamp blue">Iterate</span>
+  <hr class="rule">
+  <table>
+    <tr><th>Câu hỏi</th><th>Số đang có</th><th>Đủ để quyết?</th></tr>
+    <tr><td>Có nỗi đau thật không?</td><td class="n">46/200 review nêu vấn đề</td><td>Đủ để thấy có, chưa biết mức độ</td></tr>
+    <tr><td>Bản chạy thử có đạt chuẩn không?</td><td class="n">30/30, từ chối 6/6</td><td>Đạt trên dữ liệu dựng, một lượt</td></tr>
+    <tr><td>Tiền model có chịu được không?</td><td class="n">$1.46 / tháng ở 700 người</td><td>Được, chưa gồm người duyệt</td></tr>
+    <tr><td>Khách có dùng và tiết kiệm thời gian không?</td><td class="n">0 phỏng vấn, 0 khảo sát</td><td class="red"><b>Chưa</b></td></tr>
+  </table>
+  <hr class="rule">
+  <p style="font-size:21px"><b>Điều kiện để chuyển sang Go:</b> hỏi khách đi xe thật, đo thời gian xử lý, chạy với dữ liệu của một nhà xe thật và qua chuẩn nhiều lượt liên tiếp.</p>
+  <p class="src">Trang 1, 5, 6</p>
+  <span class="no">Seed42 · 7/8</span>
+</div></section>
+
+<section class="slide"><div class="paper">
+  <h1>Nếu có thêm một tuần</h1>
+  <hr class="rule">
+  <table>
+    <tr><th>Việc</th><th>Vì lỗi hoặc khoảng trống nào</th></tr>
+    <tr><td><b>Phỏng vấn ít nhất 3 hành khách, đo số phút</b></td><td>Impact đang dựa trên hai thừa số tự ước tính</td></tr>
+    <tr><td><b>Chạy nhiều lượt, thêm cách hỏi lắt léo về mốc giờ huỷ vé</b></td><td>30/30 mới là một lượt; chưa đo độ ổn định</td></tr>
+    <tr><td><b>Phân loại phiếu đúng hơn</b></td><td>Nhiều phiếu ghi loại “khac”, ví dụ R06</td></tr>
+    <tr><td><b>Nguồn khuyến mãi và dữ liệu nhà xe thật</b></td><td>R04 phải dựa vào nguồn lịch và giá để nói chưa có khuyến mãi</td></tr>
+    <tr><td><b>Nút chọn nhanh khi trợ lý hỏi lại</b></td><td>Trợ lý chưa nhớ câu trước, khách phải gõ lại đủ ý</td></tr>
+  </table>
+  <hr class="rule">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:30px">
+    <p style="font:900 30px/1.25 var(--head);max-width:640px">Hỏi nhà xe, trả lời có nguồn.<br>Việc về tiền để người quyết.</p>
+    <img src="assets/bus.png" alt="Xe khách in đen trắng" style="width:330px;image-rendering:pixelated">
+  </div>
+  <p class="src">eval/report.md mục 4 · github.com/buiductuan2884-max/K5-Day15-L3B-Seed42</p>
+  <span class="no">Seed42 · 8/8</span>
+</div></section>
+</body>
+</html>

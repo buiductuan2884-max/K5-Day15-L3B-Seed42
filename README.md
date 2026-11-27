@@ -11,11 +11,21 @@ python run.py                      # chat; ticket nháp hiện ngay dưới câu
 python codebase/app.py selfcheck   # tự kiểm phần ticket, không cần model
 ```
 
+Giao diện web (tuỳ chọn), hai chế độ xem "Khách hàng" và "Trace / log" dùng chung một cuộc trò chuyện:
+
+```
+python -m pip install streamlit==1.67.0
+python -m streamlit run codebase/web.py
+python codebase/web.py selfcheck   # không cần Streamlit, không gọi model
+```
+
+Đưa web lên mạng để người khác mở bằng link: [docs/deploy-web.md](docs/deploy-web.md).
+
 Kịch bản demo (chạy được sau khi ghép luồng và dữ liệu):
 1. Hỏi một thông tin công khai (giờ chạy hoặc giá) → câu trả lời kèm nguồn.
 2. Xin hoàn tiền một vé → ticket nháp; sửa một ô, điền ô còn thiếu, gõ `gui` → màn hình báo là gửi mô phỏng.
 
-Hiện trạng: giao diện chat, ticket nháp, luồng `answer`, công cụ tra dữ liệu mẫu đã ghép. Nhóm đã chạy bộ 30 câu với Gemini 3.1 Flash-Lite (lượt 1) và Gemini 3.5 Flash-Lite (lượt 2–3); kết quả xem [eval/report.md](eval/report.md). Mỗi máy cần cấu hình Gemini trong `.env` cục bộ để chạy thật. Dữ liệu nhà xe vẫn là `synthetic`, ticket không được gửi đi đâu.
+Hiện trạng: giao diện chat, ticket nháp, luồng `answer`, công cụ tra dữ liệu mẫu đã ghép. Nhóm đã chạy bộ 30 câu với Gemini 3.1 Flash-Lite (lượt 1) và Gemini 3.5 Flash-Lite (lượt 2–5); kết quả xem [eval/report.md](eval/report.md). Mỗi máy cần cấu hình Gemini trong `.env` cục bộ để chạy thật. Dữ liệu nhà xe vẫn là `synthetic`, ticket không được gửi đi đâu.
 
 ## Nhóm làm gì, khung làm gì
 

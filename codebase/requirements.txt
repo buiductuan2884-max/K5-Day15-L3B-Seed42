@@ -1,0 +1,3 @@
+# Chỉ cho giao diện web (codebase/web.py). Streamlit Community Cloud đọc file cạnh file chạy.
+# Phần còn lại của bài chỉ dùng thư viện chuẩn.
+streamlit==1.67.0
