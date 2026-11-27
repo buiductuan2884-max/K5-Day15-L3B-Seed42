@@ -61,10 +61,11 @@ python run.py score eval/run-N.csv
 | Lượt | Run ID | Model | Cấu hình (prompt / công cụ / thay đổi) | Đạt / tổng | % | Đạt chuẩn? |
 |---|---|---|---|---|---|---|
 | 1 | `run-1@20261128-013111` | `gemini-3.1-flash-lite` (14 câu có output) | Prompt và công cụ trước commit `a4d0f7e`; gọi liên tiếp, không `--wait`; 16 lỗi API | 12/30 | 40,0% | Không: `tu_choi` 1/6, tổng dưới 80% |
-| 2 | | | | __/__ | | |
+| 2 | `run-2@20261128-014202` | `gemini-3.5-flash-lite` | Sau guard `a4d0f7e`; 0 lỗi API | 21/30 | 70,0% | Không: `tu_choi` 5/6, tổng dưới 80% |
+| 3 | `run-3@20261128-014747` | `gemini-3.5-flash-lite` | Cùng code/benchmark/metric với lượt 2, `--wait 10`; 0 lỗi API | 19/30 | 63,3% | Không: `tu_choi` 4/6, tổng dưới 80% |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
 ## 6. Lỗi chính
 
-Lượt 1: 16/30 câu không có output vì timeout/503/429; 2/14 câu có output trượt: K03 dùng nguồn hết hiệu lực như hiện hành, D06 nói đã ghi nhận yêu cầu khi chỉ tạo nháp. Đã thêm guard trong `codebase/agent.py` ở commit `a4d0f7e`; lượt 2 sẽ giãn 10 giây giữa câu. Cần chạy và chấm lượt 2 để kiểm kết quả sau sửa. Chi tiết ở [report.md](report.md).
+Lượt 1: 16/30 câu không có output vì timeout/503/429; 2/14 câu có output trượt: K03 dùng nguồn hết hiệu lực như hiện hành, D06 nói đã ghi nhận yêu cầu khi chỉ tạo nháp. Sau guard `a4d0f7e`, lượt 2 và 3 trên model 3.5 hết lỗi API nhưng vẫn chưa đạt chuẩn. Lỗi còn lại: T07 thiếu nguồn/chính sách; K03 không giải thích nguồn đã hết hạn; nhiều câu nói đã chuyển yêu cầu dù chỉ có nháp, R01 lượt 3 còn hứa tiền về. Chi tiết ở [report.md](report.md).

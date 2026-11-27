@@ -70,7 +70,7 @@ flowchart TD
 ```
 
 - **Hình dạng:** [x] workflow cố định · [ ] một agent · [ ] nhiều agent. Mọi câu hỏi đi qua cùng một bước truy xuất và một quyết định LLM; không cần vòng lặp agent. Ticket là đường chuyển việc cho người, không phải một agent AI thứ hai.
-- **Model:** Gemini 3.1 Flash-Lite qua Gemini API (`gemini-3.1-flash-lite`); lượt thử 5 câu T01–T05 dùng token thực từ API, xem `eval/cp2-smoke-20261127.csv`. Chưa có response cache; không dùng lại câu trả lời cá nhân hoặc chính sách đã đổi phiên bản.
+- **Model:** nhóm đã chuyển sang Gemini 3.5 Flash-Lite qua Gemini API (`gemini-3.5-flash-lite`) cho lượt eval 2–3 và mô phỏng chi phí thử, theo xác nhận của Minh ngày 28/11/2026. Lượt thử CP2 và eval 1 dùng Gemini 3.1 Flash-Lite; không so điểm hai model như thể chỉ có một biến thay đổi. Chưa có response cache.
 - **AI dựa vào đâu — công cụ dự kiến (khớp `codebase/tools.py` khi triển khai):**
 
   | Công cụ | Input | Output | Tác động ra ngoài? |
@@ -120,7 +120,7 @@ flowchart TD
 - Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — 30 câu (thuong 7 · kho 17 · tu_choi 6; 10/30 từ review thật) · metric: `eval/metric_spec.yaml` (6 metric)
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu báo số tiền hoàn cụ thể hoặc tự xử lý giao dịch khi cần người duyệt"
 - Với câu `tu_choi`, đạt nghĩa là từ chối tự thực hiện hành động bị cấm và hướng khách sang ticket nháp/kênh nhân viên phù hợp; không có nghĩa là bỏ mặc yêu cầu hỗ trợ.
-- Kết quả: lượt 1 **12/30 (40,0%)**, `run-1@20261128-013111` — có 16 lỗi API, `tu_choi` 1/6; chưa đạt chuẩn. Lượt 2 chưa chạy. Chi tiết `eval/report.md`, hồ sơ `eval/README.md`.
+- Kết quả: lượt 1 **12/30 (40,0%)**, `run-1@20261128-013111`, 16 lỗi API, model 3.1; lượt 2 **21/30 (70,0%)**, `run-2@20261128-014202`, 0 lỗi, model 3.5; lượt 3 **19/30 (63,3%)**, `run-3@20261128-014747`, 0 lỗi, model 3.5. Cả ba đều chưa đạt chuẩn; `tu_choi` lần lượt 1/6, 5/6, 4/6. Chi tiết `eval/report.md`, hồ sơ `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 - Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
@@ -148,6 +148,7 @@ flowchart TD
 | 28/11/2026, sau CP2 | Ghi Minh xác nhận điểm chấm của Minh và Đức cho T01–T05 đều 5/5, khớp 5/5; không đổi metric hay chuẩn đạt §7 | Xác nhận sau mốc CP2 và chưa có phiếu chấm riêng của Đức trong repo, nên lưu đúng nguồn và thời điểm của thông tin |
 | 28/11/2026, CP3 | Tổng hợp bằng chứng từ review đã có, ghi rõ chưa phỏng vấn/khảo sát; thêm kịch bản impact tự ước tính và cập nhật model Gemini đã thử thật; không đổi metric hay chuẩn đạt §7 | Hoàn thiện §0–§7 theo dữ liệu hiện có mà không bịa lời người dùng, thời gian đo hay kết quả eval |
 | 28/11/2026, CP3 | Chấm và giữ nguyên lượt eval 1: 12/30, 16 lỗi API; ghi report; sửa guard nguồn hết hạn và lời nói đã ghi nhận yêu cầu trong `codebase/agent.py` (commit `a4d0f7e`). Không đổi benchmark, metric hoặc chuẩn đạt §7 | K03 và D06 trượt dù API trả lời; lỗi 429/503 làm 16 câu không có output. Cần lượt 2 có giãn cách để kiểm lại |
+| 28/11/2026, CP3 | Chuyển model được chọn sang Gemini 3.5 Flash-Lite theo xác nhận của Minh; chấm lượt 2 và 3, ghi lượt thử mô phỏng 10 phiên, cập nhật giá Standard từ nguồn Google. Không sửa benchmark, metric, chuẩn đạt §7 hoặc output các lượt cũ | Lượt 2 đạt 21/30, lượt 3 đạt 19/30, đều không có lỗi API nhưng chưa qua chuẩn; lượt thử cost đo token thật, chưa phải mô phỏng đủ ≥50 phiên |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
