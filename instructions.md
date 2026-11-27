@@ -22,6 +22,8 @@ Use a small, clearly labelled **synthetic** bus-company knowledge set if verifie
 
 **Document:** Update README commands and the demo script after integration. Keep `spec.md` and `canvas.md` aligned with the actual prototype, label mock data and missing integrations, and record any post-CP2 design change in `spec.md` §10. Do not invent user evidence or edit the frozen acceptance threshold after CP2.
 
+**Outstanding CP3 handoff — video (assigned to Tuấn, 28/11/2026):** Record a ~30-second screen video of the integrated `python run.py` prototype making a **real Gemini API call**, with a visible cited answer and/or editable ticket draft. Use the locally configured `gemini-3.5-flash-lite`; keep `.env`, API key, account details and real passenger data off screen. Upload the clip to YouTube **Unlisted** or a Drive link accessible to anyone with the link, then open the exact link in an incognito window to verify it plays without signing in. Add the verified URL and recording date to `README.md` in the demo/video row; tell Minh the link for the CP3 submission. This task is **not done** until the recording, accessible link and incognito check exist. Do not substitute an eval trace or a mock response for the real-model video.
+
 **Done when:** A passenger can ask a public-information question and read a source-labelled response, then ask for a refund and see a ticket draft they can inspect and edit without any transaction or external send. Demonstrate both flows locally. If the agent or tools are not ready yet, use temporary in-memory stubs only in your isolated branch and remove them before integration.
 
 ## 2. Đặng Đức Minh — model connection, decision flow, and cost
