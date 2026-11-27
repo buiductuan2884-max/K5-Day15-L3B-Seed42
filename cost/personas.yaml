@@ -28,13 +28,13 @@ personas:
     source: "(tự ước tính) khách cần người xử lý vé hoặc thanh toán"
     inputs: ["Tôi muốn hoàn tiền cho vé đã đặt, vui lòng hỗ trợ.", "Tôi đã thanh toán nhưng chưa thấy vé, nhờ nhân viên kiểm tra."]
 
-# Giá chuẩn OpenAI USD / 1 triệu token, chưa tính chiết khấu cache.
+# Giá chuẩn Gemini API USD / 1 triệu token, chưa tính chiết khấu cache.
 prices:
-  - model: gpt-5.4-mini
-    input: 0.75
-    output: 4.50
-    source: "https://developers.openai.com/api/docs/models/gpt-5.4-mini — xem 27/11/2026"
-  - model: gpt-6.2-sol
-    input: 2.00
-    output: 10.00
-    source: "https://developers.openai.com/api/docs/pricing — xem 27/11/2026, Standard"
+  - model: gemini-3.1-flash-lite
+    input: 0.25
+    output: 1.50
+    source: "https://ai.google.dev/gemini-api/docs/pricing — xem 27/11/2026, Standard"
+  - model: gemini-3-flash-preview
+    input: 0.50
+    output: 3.00
+    source: "https://ai.google.dev/gemini-api/docs/pricing — xem 27/11/2026, Standard"
