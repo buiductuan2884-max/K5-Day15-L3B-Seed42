@@ -20,6 +20,7 @@ Nối model thật: điền .env (chép từ .env.example), rồi viết nhánh 
 import json
 import os
 import urllib.error
+import urllib.parse
 import urllib.request
 
 from tracing import model_call
@@ -52,6 +53,34 @@ def call_model(system: str, user: str) -> dict:
         return {
             "text": json.dumps({"decision": "clarify", "message": "Đây là chế độ thử, chưa nối model. Bạn vui lòng cấu hình model để nhận câu trả lời có nguồn."}, ensure_ascii=False),
             "model": "fake", "tokens_in": 0, "tokens_out": 0,
+        }
+    if MODEL_PROVIDER == "gemini":
+        if not MODEL_NAME or not API_KEY:
+            raise ValueError("Cần MODEL_NAME và API_KEY trong môi trường để gọi Gemini")
+        request = urllib.request.Request(
+            "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent"
+            % urllib.parse.quote(MODEL_NAME, safe=""),
+            data=json.dumps({
+                "systemInstruction": {"parts": [{"text": system}]},
+                "contents": [{"role": "user", "parts": [{"text": user}]}],
+                "generationConfig": {"responseMimeType": "application/json"},
+            }, ensure_ascii=False).encode("utf-8"),
+            headers={"Content-Type": "application/json", "x-goog-api-key": API_KEY},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=60) as response:
+                data = json.load(response)
+        except urllib.error.HTTPError as error:
+            raise RuntimeError("Gemini HTTP %d" % error.code) from None
+        usage = data["usageMetadata"]
+        candidates = data.get("candidates") or []
+        parts = candidates[0].get("content", {}).get("parts", []) if candidates else []
+        return {
+            "text": "".join(part.get("text", "") for part in parts if isinstance(part, dict)),
+            "model": MODEL_NAME,
+            "tokens_in": usage["promptTokenCount"],
+            "tokens_out": usage["candidatesTokenCount"] + usage.get("thoughtsTokenCount", 0),
         }
     if MODEL_PROVIDER != "openai":
         raise ValueError("MODEL_PROVIDER chưa hỗ trợ: %s" % MODEL_PROVIDER)
