@@ -17,7 +17,10 @@ Chế độ giả (mặc định khi .env chưa có MODEL_PROVIDER, hoặc MODEL
 Nối model thật: điền .env (chép từ .env.example), rồi viết nhánh gọi API ở dưới theo docs/connect-model.md
 (có ví dụ OpenAI, Claude, model chạy trên máy, và cách nối nhà cung cấp khác). Không dán API key vào file này.
 """
+import json
 import os
+import urllib.error
+import urllib.request
 
 from tracing import model_call
 
@@ -46,11 +49,34 @@ API_KEY = (os.environ.get("API_KEY") or "").strip()
 @model_call
 def call_model(system: str, user: str) -> dict:
     if MODEL_PROVIDER == "fake":
-        last = (user.strip().splitlines() or [""])[-1]
-        return {"text": "[câu trả lời giả — chưa nối model] " + last[:60], "model": "fake", "tokens_in": 0, "tokens_out": 0}
-
-    # NHÓM VIẾT: gọi model thật ở đây (theo MODEL_PROVIDER, MODEL_NAME, API_KEY) rồi trả đúng 4 khoá.
-    # Ví dụ chép được cho từng nhà cung cấp: docs/connect-model.md mục 2.
-    raise NotImplementedError(
-        "chưa viết phần gọi model thật cho MODEL_PROVIDER=%s trong codebase/ai.py — xem docs/connect-model.md"
-        % MODEL_PROVIDER)
+        return {
+            "text": json.dumps({"decision": "clarify", "message": "Đây là chế độ thử, chưa nối model. Bạn vui lòng cấu hình model để nhận câu trả lời có nguồn."}, ensure_ascii=False),
+            "model": "fake", "tokens_in": 0, "tokens_out": 0,
+        }
+    if MODEL_PROVIDER != "openai":
+        raise ValueError("MODEL_PROVIDER chưa hỗ trợ: %s" % MODEL_PROVIDER)
+    if not MODEL_NAME or not API_KEY:
+        raise ValueError("Cần MODEL_NAME và API_KEY trong môi trường để gọi OpenAI")
+    request = urllib.request.Request(
+        "https://api.openai.com/v1/chat/completions",
+        data=json.dumps({
+            "model": MODEL_NAME,
+            "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
+        }, ensure_ascii=False).encode("utf-8"),
+        headers={"Content-Type": "application/json", "Authorization": "Bearer " + API_KEY},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            data = json.load(response)
+    except urllib.error.HTTPError as error:
+        # Provider messages can contain request details; keep secrets out of traces.
+        raise RuntimeError("OpenAI HTTP %d" % error.code) from None
+    usage = data["usage"]
+    content = data["choices"][0]["message"]["content"]
+    return {
+        "text": content if isinstance(content, str) else "",
+        "model": data.get("model") or MODEL_NAME,
+        "tokens_in": usage["prompt_tokens"],
+        "tokens_out": usage["completion_tokens"],
+    }
