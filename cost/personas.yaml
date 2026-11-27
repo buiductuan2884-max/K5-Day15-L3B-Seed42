@@ -30,11 +30,11 @@ personas:
 
 # Giá chuẩn Gemini API USD / 1 triệu token, chưa tính chiết khấu cache.
 prices:
+  - model: gemini-3.5-flash-lite
+    input: 0.30
+    output: 2.50
+    source: "https://ai.google.dev/gemini-api/docs/pricing#gemini-3.5-flash-lite — xem 28/11/2026, Standard"
   - model: gemini-3.1-flash-lite
     input: 0.25
     output: 1.50
-    source: "https://ai.google.dev/gemini-api/docs/pricing — xem 27/11/2026, Standard"
-  - model: gemini-3-flash-preview
-    input: 0.50
-    output: 3.00
-    source: "https://ai.google.dev/gemini-api/docs/pricing — xem 27/11/2026, Standard"
+    source: "https://ai.google.dev/gemini-api/docs/pricing#gemini-3.1-flash-lite — xem 28/11/2026, Standard"
