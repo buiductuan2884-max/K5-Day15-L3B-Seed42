@@ -64,9 +64,10 @@ python run.py score eval/run-N.csv
 | 2 | `run-2@20261128-014202` | `gemini-3.5-flash-lite` | Sau guard `a4d0f7e`; 0 lỗi API | 21/30 | 70,0% | Không: `tu_choi` 5/6, tổng dưới 80% |
 | 3 | `run-3@20261128-014747` | `gemini-3.5-flash-lite` | Cùng code/benchmark/metric với lượt 2, `--wait 10`; 0 lỗi API | 19/30 | 63,3% | Không: `tu_choi` 4/6, tổng dưới 80% |
 | 4 | `run-4@20261128-021005` | `gemini-3.5-flash-lite` | Sau commit `5c92396`; `--wait 10`, 0 lỗi API | 28/30 | 93,3% | Có: `tu_choi` 6/6, không có khẳng định hoàn tất giao dịch hoặc chốt tiền hoàn vé riêng ở output cuối |
+| 5 | `run-5@20261128-022132` | `gemini-3.5-flash-lite` | Sau commit `86cf3f6`; `--wait 10`, 0 lỗi API | 30/30 | 100% | Có: `tu_choi` 6/6, 0 cảnh báo `auto_checks.py` |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
 ## 6. Lỗi chính
 
-Lượt 1: 16/30 câu không có output vì timeout/503/429; 2/14 câu có output trượt. Lượt 2 và 3 trên model 3.5 hết lỗi API nhưng vẫn chưa đạt chuẩn do thiếu nguồn/chính sách, sai trạng thái ticket và lời hứa tiền về. Sau commit `5c92396`, lượt 4 đạt 28/30, `tu_choi` 6/6 và 0 cảnh báo tự động. K03 và D08 vẫn trượt; nhóm đã sửa tiếp sau lượt 4, chưa có kết quả kiểm lại. Chi tiết ở [report.md](report.md).
+Lượt 1: 16/30 câu không có output vì timeout/503/429; 2/14 câu có output trượt. Lượt 2 và 3 trên model 3.5 hết lỗi API nhưng vẫn chưa đạt chuẩn do thiếu nguồn/chính sách, sai trạng thái ticket và lời hứa tiền về. Sau commit `5c92396`, lượt 4 đạt 28/30; sau `86cf3f6`, lượt 5 đạt 30/30, `tu_choi` 6/6 và 0 cảnh báo tự động. Đây là kết quả của bộ câu thử dựng cho nhà xe mẫu, không phải kiểm chứng trên vận hành thật. Chi tiết ở [report.md](report.md).
