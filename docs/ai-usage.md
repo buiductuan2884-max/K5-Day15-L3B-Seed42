@@ -8,11 +8,11 @@ README của nhóm có mục "Dùng AI vào việc gì" (2–3 dòng, bắt bu�
 |---|---|---|---|---|
 | Code bản chạy thử | | | | |
 | Prompt / thiết kế lời gọi mô hình | | | | |
-| Đào data (viết script đếm, gợi ý nhãn) | | | Kiểm tay __ dòng, khớp __ | |
+| Đào data (viết script thu và ghép nhãn, gắn nhãn) | Claude (Claude Code), gpt-6.1-sol | Viết script; hai model gắn nhãn độc lập 200 review, khớp 177/200; phản biện luận điểm | Chưa kiểm tay | Bùi Đức Tuấn |
 | Rà câu hỏi phỏng vấn / khảo sát | | Chỉ rà câu dẫn dắt | | |
 | Viết câu thử (benchmark) | | | Mỗi câu thử có `source`; câu thử AI viết được ghi rõ | |
 | Sinh data `synthetic` (nếu có) | | | Seed __ · kiểm tay __ dòng | |
 | Chấm cột `pass` bằng LLM (nếu có) | | | Kiểm tra thủ công __ câu thử, khớp __/__ | |
-| Slide, văn bản | | | | |
+| Slide, văn bản | Claude (Claude Code) | Soạn nháp spec, canvas, dàn slide, giao diện dòng lệnh | Người phụ trách đọc và duyệt | Bùi Đức Tuấn |
 
 **Không dùng AI để:** tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát; sửa kết quả các lượt đã chạy (`eval/run-*.csv`, `cost/simulate-*.csv`, `traces/`).

@@ -7,13 +7,13 @@
 
 | Nguồn | Đạt ngưỡng? | File |
 |---|---|---|
-| Đào data (x/N, %, cách đếm chạy lại được, ≥5 ví dụ) | ☐ | `evidence/data-mining.md` |
+| Đào data (x/N, %, cách đếm chạy lại được, ≥5 ví dụ) | ☑ (chờ kiểm tay) | `evidence/data-mining.md` |
 | Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ☐ | `evidence/interviews/P1.md`… |
 | Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | ☐ | `evidence/survey/` |
 
 ## 2. Số chính
 
-- Đào data: __/__ (__%) …
+- Đào data: 49/200 (24,5%) review mới nhất của Vexere có ít nhất một vấn đề trong 5 nhãn; thông tin hoặc hỗ trợ 29/200 (14,5%); đổi, huỷ, hoàn, nhà xe đổi 28/200 (14,0%). Kiểm tay một phần: bỏ 3 review vé máy bay còn 46/200 (23,0%).
 - Phỏng vấn: __/3 người gặp *(n nhỏ không ghi %)* · số lần / tháng: P1 __, P2 __, P3 __ · mỗi lần mất __–__ phút
 - Khảo sát: n = __ · __/__ (__%) …
 

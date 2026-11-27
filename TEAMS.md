@@ -11,9 +11,9 @@
 
 | STT | Họ và tên | Mã học viên | Vai trò | Phần việc chính |
 |---|---|---|---|---|
-| 1 | Bùi Đức Tuấn | 2A202603902 | Đội trưởng | Spec, sơ đồ kiến trúc, ngưỡng đạt, slide |
-| 2 | Đặng Đức Minh | 2A202603886 | Thành viên | Code, nối model, mô phỏng chi phí |
-| 3 | Trương Anh Đức | 2A202604096 | Thành viên | Bằng chứng review, câu thử, metric, DATA_CARD |
+| 1 | Bùi Đức Tuấn | 2A202603902 | Đội trưởng | Giao diện chat và ticket, spec, ngưỡng đạt, README, slide |
+| 2 | Đặng Đức Minh | 2A202603886 | Thành viên | Nối model, luồng trả lời, mô phỏng chi phí |
+| 3 | Trương Anh Đức | 2A202604096 | Thành viên | Dữ liệu, DATA_CARD, công cụ tra cứu, bằng chứng review, câu thử, metric |
 
 **Quy tắc điền**
 - **Lớp:** `L3A` hoặc `L3B`. **Track:** một chữ `A` (EdTech), `B` (Y tế), `C` (Du lịch), `D` (Thương mại điện tử), `E` (Tài chính) hoặc `F` (Làn khác). **Link repo:** link GitHub công khai của nhóm.

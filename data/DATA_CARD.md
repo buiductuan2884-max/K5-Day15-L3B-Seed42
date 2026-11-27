@@ -33,8 +33,8 @@
 | | |
 |---|---|
 | Dùng để làm gì | Đào bằng chứng pain (`evidence/data-mining.md`), là nguồn cho câu thử `data_that` |
-| Từ đâu | Review công khai trên Google Play của app Vexere (`com.vexere.vexere`). Xem ngày 27/11/2026 |
-| Xử lý | Gắn nhãn tay vào `evidence/review_labels.csv`: không chép tên người viết, trích tối đa 2 câu mỗi review. Đếm bằng `python evidence/count_reviews.py` |
-| Số dòng | Số sơ bộ ở `canvas.md`: 55/440 review nhắc đổi, huỷ, hoàn (đếm theo từ khoá, chưa gắn nhãn). Bảng gắn nhãn 200 review mới nhất: **chưa làm** |
+| Từ đâu | Review công khai trên Google Play của app Vexere (`com.vexere.vexere`). Thu ngày 27/11/2026, không lấy tên người viết |
+| Xử lý | Hai model gắn nhãn độc lập, chỉ tính nhãn trùng (chưa kiểm tay) vào `evidence/review_labels.csv`: không chép tên người viết, trích tối đa 2 câu mỗi review. Đếm bằng `python evidence/count_reviews.py` |
+| Số dòng | 200 review mới nhất (29/12/2025 đến 24/11/2026), thu bằng `evidence/fetch_reviews.py`, nhãn ở `evidence/review_labels.csv`. 49/200 có nhãn đau |
 | Nhãn | thật (dữ liệu công khai). Repo chỉ giữ số đã tổng hợp và trích ngắn |
-| Giới hạn | Người viết review thường đang bực, nên lệch về phía phàn nàn. Con số chỉ nói về đổi, huỷ, hoàn, **không** chứng minh pain cho mọi chủ đề hỗ trợ (giờ chạy, giá…) |
+| Giới hạn | Người viết review thường đang bực, nên lệch về phía phàn nàn. Một app trung gian; có review về vé máy bay và lỗi vận hành của nhà xe nằm trong số đã đếm; **không** chứng minh trợ lý làm giảm vấn đề |
