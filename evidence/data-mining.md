@@ -9,7 +9,7 @@
 - Data dùng: review Google Play của app Vexere (`com.vexere.vexere`), tiếng Việt, https://play.google.com/store/apps/details?id=com.vexere.vexere&hl=vi&gl=VN. Khoảng ngày ghi sau khi lấy mẫu
 - Đếm gì: số review theo nhãn `hoan_tien`, `doi_huy`, `nha_xe_doi`, `khac` · trên tập nào: 200 review mới nhất (sắp theo "Mới nhất") · lọc gì: không lọc, mọi mức sao
 - **Mẫu số là gì:** N = mọi review đã đọc và gắn nhãn, kể cả review không liên quan *(lỗi hay gặp nhất là mẫu số sai)*
-- Script / công thức: bảng gắn nhãn mỗi review một dòng (nguồn, ngày, số sao, trích tối đa 2 câu, nhãn), không chép tên người viết
+- Script / công thức: bảng gắn nhãn mỗi review một dòng (nguồn, ngày, số sao, trích tối đa 2 câu, nhãn), không chép tên người viết → `evidence/review_labels.csv` (cột `stt, ngay, so_sao, trich, nhan, ghi_chu`; nhiều nhãn cách nhau bằng `;`). Đếm: `python evidence/count_reviews.py` in x/N và % cho từng nhãn, N = mọi review đã gắn nhãn
 
 ## 2. Đọc trước, đếm sau
 
