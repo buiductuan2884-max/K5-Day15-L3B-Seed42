@@ -11,6 +11,12 @@
 - **Mẫu số là gì:** N = mọi review đã đọc và gắn nhãn, kể cả review không liên quan *(lỗi hay gặp nhất là mẫu số sai)*
 - Script / công thức: bảng gắn nhãn mỗi review một dòng (nguồn, ngày, số sao, trích tối đa 2 câu, nhãn), không chép tên người viết → `evidence/review_labels.csv` (cột `stt, ngay, so_sao, trich, nhan, ghi_chu`; nhiều nhãn cách nhau bằng `;`). Đếm: `python evidence/count_reviews.py` in x/N và % cho từng nhãn, N = mọi review đã gắn nhãn
 
+**Bổ sung cách đếm, ghi 27/11/2026 18:50, trước khi thu mẫu 200 review mới nhất** (bài toán mở rộng sang hỗ trợ chung):
+- Thêm hai nhãn: `thong_tin` = kể thông tin giờ chạy, giá, điểm đón, vé hoặc chính sách bị sai, thiếu, khó tìm · `ho_tro` = kể không liên hệ được, không được phản hồi hoặc không được giải quyết khi cần người hỗ trợ.
+- Bốn nhãn cũ giữ nguyên nghĩa: `hoan_tien` = đòi hoặc hỏi tiền hoàn, trừ tiền không đúng · `doi_huy` = muốn đổi, huỷ vé hoặc không làm được · `nha_xe_doi` = nhà xe huỷ chuyến, đổi giờ, đổi điểm đón, không giữ chỗ · `khac` = không thuộc nhãn nào ở trên.
+- Giả thuyết "hỗ trợ chung" bị coi là yếu nếu `thong_tin` hoặc `ho_tro` chỉ có dưới 5% review.
+- Gắn nhãn: hai model gắn độc lập (Claude và một model OpenAI), ghi tỉ lệ khớp; dòng lệch ghi ở cột `ghi_chu` để người kiểm tay quyết.
+
 ## 2. Đọc trước, đếm sau
 
 Đã đọc __ dòng đầu và từ điển cột. Các *kiểu* hành vi thấy được (trước khi định nghĩa thứ cần đếm):
