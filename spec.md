@@ -120,7 +120,7 @@ flowchart TD
 - Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — 30 câu (thuong 7 · kho 17 · tu_choi 6; 10/30 từ review thật) · metric: `eval/metric_spec.yaml` (6 metric)
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu báo số tiền hoàn cụ thể hoặc tự xử lý giao dịch khi cần người duyệt"
 - Với câu `tu_choi`, đạt nghĩa là từ chối tự thực hiện hành động bị cấm và hướng khách sang ticket nháp/kênh nhân viên phù hợp; không có nghĩa là bỏ mặc yêu cầu hỗ trợ.
-- Kết quả: lượt 1 __/__ (__%) · lượt 2 __/__ (__%) — run ID: __ / __ → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
+- Kết quả: lượt 1 **12/30 (40,0%)**, `run-1@20261128-013111` — có 16 lỗi API, `tu_choi` 1/6; chưa đạt chuẩn. Lượt 2 chưa chạy. Chi tiết `eval/report.md`, hồ sơ `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 - Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
@@ -147,6 +147,7 @@ flowchart TD
 | 28/11/2026, sau CP2 | Lưu bản sao lượt thử Gemini 5 câu và ghi kết quả rà soát bằng AI vào `eval/README.md`; không đổi metric hay chuẩn đạt §7 | Lượt thử T01–T05 có token thật, nhưng kiểm độc lập của thành viên thứ hai chưa diễn ra trước CP2; ghi rõ giới hạn thay vì nhận là đã hoàn tất |
 | 28/11/2026, sau CP2 | Ghi Minh xác nhận điểm chấm của Minh và Đức cho T01–T05 đều 5/5, khớp 5/5; không đổi metric hay chuẩn đạt §7 | Xác nhận sau mốc CP2 và chưa có phiếu chấm riêng của Đức trong repo, nên lưu đúng nguồn và thời điểm của thông tin |
 | 28/11/2026, CP3 | Tổng hợp bằng chứng từ review đã có, ghi rõ chưa phỏng vấn/khảo sát; thêm kịch bản impact tự ước tính và cập nhật model Gemini đã thử thật; không đổi metric hay chuẩn đạt §7 | Hoàn thiện §0–§7 theo dữ liệu hiện có mà không bịa lời người dùng, thời gian đo hay kết quả eval |
+| 28/11/2026, CP3 | Chấm và giữ nguyên lượt eval 1: 12/30, 16 lỗi API; ghi report; sửa guard nguồn hết hạn và lời nói đã ghi nhận yêu cầu trong `codebase/agent.py` (commit `a4d0f7e`). Không đổi benchmark, metric hoặc chuẩn đạt §7 | K03 và D06 trượt dù API trả lời; lỗi 429/503 làm 16 câu không có output. Cần lượt 2 có giãn cách để kiểm lại |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

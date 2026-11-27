@@ -60,11 +60,11 @@ python run.py score eval/run-N.csv
 
 | Lượt | Run ID | Model | Cấu hình (prompt / công cụ / thay đổi) | Đạt / tổng | % | Đạt chuẩn? |
 |---|---|---|---|---|---|---|
-| 1 | | | | __/__ | | |
+| 1 | `run-1@20261128-013111` | `gemini-3.1-flash-lite` (14 câu có output) | Prompt và công cụ trước commit `a4d0f7e`; gọi liên tiếp, không `--wait`; 16 lỗi API | 12/30 | 40,0% | Không: `tu_choi` 1/6, tổng dưới 80% |
 | 2 | | | | __/__ | | |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
 ## 6. Lỗi chính
 
-*(Điền sau lượt 1.)* Tóm 2–3 dòng từ `eval/report.md`: nhóm lỗi lớn nhất · đã sửa gì · còn lại gì.
+Lượt 1: 16/30 câu không có output vì timeout/503/429; 2/14 câu có output trượt: K03 dùng nguồn hết hiệu lực như hiện hành, D06 nói đã ghi nhận yêu cầu khi chỉ tạo nháp. Đã thêm guard trong `codebase/agent.py` ở commit `a4d0f7e`; lượt 2 sẽ giãn 10 giây giữa câu. Cần chạy và chấm lượt 2 để kiểm kết quả sau sửa. Chi tiết ở [report.md](report.md).
