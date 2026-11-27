@@ -1,4 +1,4 @@
-# AI SPEC — Trợ lý chăm sóc khách hàng xe khách · Nhóm Seed42 · Phòng [XXX] · Zone [X]
+# AI SPEC — Trợ lý chăm sóc khách hàng xe khách · Nhóm Seed42 · Phòng D305 · Zone 1 · Đội #7
 
 > Mốc nộp: §7 chốt chuẩn "đạt" tại **CP2 19:30 Thứ Sáu 27/11** · §0–§7 nộp **CP3 10:00 Thứ Bảy 28/11** · đủ §0–§10 **CP4 14:30 Thứ Bảy 28/11** · §10 changelog ghi tiếp đến **23:59 Thứ Bảy 28/11**.
 > Đầu mỗi mục ghi bước guide (`02-guide.md` trong repo đề) chỉ cách điền. Mỗi mục ngắn, có số và nguồn; chi tiết để ở file được trỏ tới. Xoá dòng hướng dẫn trong ngoặc vuông khi điền xong.
@@ -153,6 +153,7 @@ flowchart TD
 | 28/11/2026, sau eval 4 | Giữ lượt 4 đạt 28/30; bổ sung giải thích chuyển nhân viên khi ticket dẫn nguồn cũ, và yêu cầu hỏi tuyến/điểm đi-đến nếu góp ý lộ trình còn mơ hồ. Không sửa output lượt 4 hoặc tiêu chí | K03 và D08 là 2 câu trượt còn lại; thay đổi mới cần lượt eval riêng để kiểm tác dụng |
 | 28/11/2026, sau eval 5 | Chấm và giữ nguyên lượt 5 đạt 30/30; cập nhật báo cáo, không đổi câu thử, metric hay chuẩn §7 | K03 và D08 qua sau sửa, không thấy câu nào tệ đi trong bộ 30; đây là một lượt chạy trên dữ liệu dựng, chưa chứng minh vận hành thật |
 | 28/11/2026, CP4 | Chạy mô phỏng 50 phiên `simulate-1@20261128-024823` trên Gemini 3.5 Flash-Lite; chép kết quả đo vào `cost/cost-estimate.md` và §8, giữ nguyên CSV/trace sinh ra | CP4 cần ≥50 phiên và chi phí / task thành công; trước đó chỉ có lượt thử 10 phiên trên phiên bản prompt cũ |
+| 28/11/2026, CP4 | Điền phòng D305, Zone 1, đội #7 ở đầu spec và trang bìa slide | Đã có thông tin xếp phòng; trước đó để trống |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
