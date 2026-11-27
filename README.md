@@ -141,5 +141,5 @@ Claude (coding agent) dựng repo, soạn nháp spec, canvas, slide, giao diện
 | 4 | Bản chạy thử làm trọn lát cắt | `codebase/` · lệnh ở mục "Lệnh" |
 | 5 | Định nghĩa "tốt" + bộ câu thử | `data/DATA_CARD.md` · `eval/` |
 | 6 | Mô phỏng chi phí khi dùng thật | `cost/` |
-| 7 | Slide + demo + video dự phòng | `demo-slides.pdf` ở thư mục gốc · link video: ____ |
+| 7 | Slide + demo + video dự phòng | `demo-slides.pdf` ở thư mục gốc · [video demo 28/11/2026](https://drive.google.com/file/d/1YafT1baeD-tflVr72UIzmWcEDYsqOsje/view) (`python run.py`, gemini-3.5-flash-lite) |
 | + | *Bonus:* người dùng thử | `validation/log.md` |
