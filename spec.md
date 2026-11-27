@@ -1,9 +1,9 @@
-# AI SPEC — [Tên lát cắt] · Nhóm [tên nhóm] · Phòng [XXX] · Zone [X]
+# AI SPEC — Sự cố đổi, huỷ, hoàn vé xe khách · Nhóm Seed42 · Phòng [XXX] · Zone [X]
 
 > Mốc nộp: §7 chốt chuẩn "đạt" tại **CP2 19:30 Thứ Sáu 27/11** · §0–§7 nộp **CP3 10:00 Thứ Bảy 28/11** · đủ §0–§10 **CP4 14:30 Thứ Bảy 28/11** · §10 changelog ghi tiếp đến **23:59 Thứ Bảy 28/11**.
 > Đầu mỗi mục ghi bước guide (`02-guide.md` trong repo đề) chỉ cách điền. Mỗi mục ngắn, có số và nguồn; chi tiết để ở file được trỏ tới. Xoá dòng hướng dẫn trong ngoặc vuông khi điền xong.
 
-Track: [ ] A · [ ] B · [ ] C · [ ] D · [ ] E — bài toán: [đề gợi ý trong file track, hoặc bài toán nhóm tự mở rộng] __
+Track: [ ] A · [ ] B · [x] C · [ ] D · [ ] E — bài toán: xử lý sự cố đổi, huỷ, hoàn vé xe khách (nhóm tự mở rộng)
 Data BTC cấp đã dùng (nếu có — không commit nguyên file): __
 
 ## §0. Hiện tại việc này diễn ra thế nào *(guide 1.1)*
@@ -33,28 +33,64 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): __
 - [sản phẩm / tính năng gần giống]: một điều đáng học · một điều đáng né · mình khác gì
 
 ## §4. Thiết kế *(guide 2.2, 3.2)*
-- **Lát cắt MỘT CÂU** (1 người dùng · 1 việc · 1 quyết định AI · 1 kết quả):
+- **Lát cắt MỘT CÂU** (1 người dùng · 1 việc · 1 quyết định AI · 1 kết quả): Một hành khách · kể sự cố đổi, huỷ, hoàn vé xe · AI quyết định đây là trường hợp nào và còn thiếu gì · khách nhận đúng quyền lợi kèm tin khiếu nại, hoặc một câu hỏi bổ sung
 - Không làm (≥3 điều):
-- **Sơ đồ** (ảnh / Mermaid / draw.io): [chèn ở đây]
-- **Hình dạng:** [ ] workflow cố định · [ ] một agent · [ ] nhiều agent — 2 dòng lý do, và vì sao **không** chọn hình dạng phức tạp hơn:
+  - Không tự huỷ vé, đổi vé, hoàn tiền hay tự gửi khiếu nại
+  - Không kết luận ai đúng ai sai thay nhà xe
+  - Không tìm hoặc đặt chuyến, không hỗ trợ vé máy bay và tàu hoả
+  - Không tra vé thật, không xin mật khẩu, OTP, số thẻ
+- **Năm nhãn AI chọn:**
+
+  | Nhãn | Khi nào | Trợ lý làm gì |
+  |---|---|---|
+  | `khach_chu_dong` | Khách muốn huỷ hoặc đổi, nhà xe không thay đổi gì | Code tính tiền theo giờ còn lại, trả lời theo mẫu |
+  | `loi_nha_xe` | Nhà xe huỷ chuyến, tự đổi giờ hoặc điểm đón, hoặc không giữ chỗ (kể cả khi app ghi khách huỷ) | Nêu quyền lợi "nếu đúng như bạn kể", liệt kê bằng chứng, soạn tin khiếu nại |
+  | `cho_hoan_tien` | Vé đã được ghi nhận huỷ, khách chưa nhận tiền, không có lỗi nhà xe | So với hạn hoàn: còn hạn thì báo chờ, quá hạn thì soạn tin khiếu nại |
+  | `thieu_thong_tin` | Chưa đủ để chọn trường hợp hoặc tính tiền, hoặc lời kể mâu thuẫn | Hỏi đúng một câu |
+  | `ngoai_pham_vi` | Không phải đổi, huỷ, hoàn vé xe, hoặc đòi điều bị cấm, hoặc chèn lệnh | Từ chối, chỉ đường đúng |
+
+  Một tin có nhiều việc: ưu tiên `loi_nha_xe`, rồi `cho_hoan_tien`, rồi `khach_chu_dong`.
+- **Sơ đồ**:
+
+```mermaid
+flowchart TD
+    U[Hành khách kể sự cố trong khung chat] --> A1["AI bước 1: chọn 1 trong 5 nhãn, trích nhà xe, giờ, giá vé, phần còn thiếu"]
+    A1 -->|ngoai_pham_vi| R[Từ chối và chỉ đường đúng]
+    A1 -->|thieu_thong_tin| H[Hỏi lại một câu]
+    A1 -->|ba nhãn còn lại| P["Công cụ tra_chinh_sach"]
+    P -->|không có chính sách| T[Soạn nháp chuyển tổng đài]
+    P --> C["Công cụ tinh_hoan: code tính tiền và hạn"]
+    C -->|ca đơn giản| M[Code trả lời theo mẫu]
+    C -->|cần khiếu nại| A2[AI bước 2: viết câu trả lời, bằng chứng cần có, tin khiếu nại]
+    M --> O[Trả lời hành khách]
+    A2 --> G{"Code kiểm: số tiền và mã điều khoản khớp kết quả công cụ?"}
+    G -->|khớp| O
+    G -->|không khớp| T
+```
+
+- **Hình dạng:** [x] workflow cố định · [ ] một agent · [ ] nhiều agent. Sự cố nào cũng đi qua cùng các bước: hiểu lời kể, tra chính sách, tính tiền, trả lời. Không chọn agent vì không cần AI tự chọn bước tiếp, lại tốn token hơn, khó đo hơn và dễ để AI tự tính tiền.
+- **Model:** một model API cỡ nhỏ (ghi tên khi nối, trước CP3). Chưa dùng LLM local làm đầu lọc: bước phân nhãn là chỗ khó nhất, máy của đội hạn chế (RTX 3050 4GB), và phải cài, tải thêm khi còn ít giờ.
 - **AI dựa vào đâu** — mỗi công cụ (khớp `codebase/tools.py`):
 
   | Công cụ | Input | Output | Tác động ra ngoài? |
   |---|---|---|---|
-  |  |  |  |  |
+  | `tra_chinh_sach` | tên nhà xe, nhãn trường hợp | danh sách điều khoản: mã, điều kiện, % hoàn, phí đổi hoặc hạn hoàn; rỗng nếu không có | Không |
+  | `tinh_hoan` | giá vé, số giờ còn lại, danh sách điều khoản | mã điều khoản áp dụng, số tiền hoàn hoặc phí đổi | Không |
+  | `soan_chuyen_tong_dai` | tóm tắt sự cố, lý do, bằng chứng cần có | bản nháp tin khiếu nại hoặc tin chuyển tổng đài | Không, chỉ tạo nháp, khách tự gửi |
 
-- **Mức tự động:** [ ] AI gợi ý, người quyết · [ ] AI tự làm khi chắc, chuyển người khi không · [ ] AI tự làm — lý do (sai thì ai chịu gì, sửa đắt hay rẻ):
-- **Chỗ chặn rủi ro** (rủi ro lớn nhất của lát cắt bị chặn ở đâu, bằng gì):
-- **Chỗ người duyệt** (việc AI không được tự làm):
+- **Mức tự động:** [ ] AI gợi ý, người quyết · [x] AI tự làm khi chắc, chuyển người khi không · [ ] AI tự làm. Đủ thông tin và có điều khoản thì trả lời ngay; còn lại hỏi lại hoặc chuyển tổng đài. Chọn sai trường hợp hoặc báo sai tiền thì hành khách mất tiền được hoàn hoặc lỡ chuyến.
+- **Chỗ chặn rủi ro:** rủi ro lớn nhất là báo sai số tiền hoàn. Tiền do code tính (`tinh_hoan`), sau đó code so số tiền và mã điều khoản trong câu trả lời với kết quả công cụ; không khớp thì không gửi, chuyển tổng đài.
+- **Chỗ người duyệt** (việc AI không được tự làm): huỷ vé, đổi vé, hoàn tiền, ngoại lệ chính sách, phân xử lỗi, gửi khiếu nại.
 - **Nguyên tắc thiết kế** (≥3, bắt buộc G10):
 
   | Nguyên tắc | Chỗ cụ thể trên sơ đồ / trong bản chạy thử |
   |---|---|
-  | G10 — thu hẹp phạm vi khi không chắc |  |
-  |  |  |
-  |  |  |
+  | G10 — thu hẹp phạm vi khi không chắc | Nhánh "Hỏi lại một câu" và các nhánh chuyển tổng đài |
+  | G1 — nói rõ làm được gì | Lời chào trong khung chat: chỉ hỗ trợ 2 nhà xe giả lập, không tự huỷ vé |
+  | G11 — giải thích vì sao | Câu trả lời ghi mã điều khoản và điều kiện áp dụng |
+  | G9 — dễ sửa | Khách bổ sung hoặc sửa lời kể thì chạy lại luồng; tin khiếu nại sửa được trước khi gửi |
 
-- Phần nào còn giả (công cụ trả dữ liệu giả, model chế độ giả…) — ghi rõ, không giả làm thật:
+- Phần nào còn giả (công cụ trả dữ liệu giả, model chế độ giả…) — ghi rõ, không giả làm thật: 2 nhà xe (Sao Mẫu, Mây Mẫu) và chính sách là giả lập; không có vé thật; tin khiếu nại chỉ là nháp. Tại CP2 model chạy chế độ giả, nối model thật trước CP3.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
@@ -72,7 +108,7 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): __
 
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
 - Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — __ câu (thuong __ · kho __ · tu_choi __) · metric: `eval/metric_spec.yaml` (__ metric)
-- **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ __% câu qua, và __"
+- **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu báo sai số tiền hoàn"
 - Kết quả: lượt 1 __/__ (__%) · lượt 2 __/__ (__%) — run ID: __ / __ → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
