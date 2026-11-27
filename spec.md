@@ -1,10 +1,10 @@
-# AI SPEC — Trợ lý chăm sóc khách hàng xe khách · Nhóm Seed42 · Phòng [XXX] · Zone [X]
+# AI SPEC — Trợ lý chăm sóc khách hàng xe khách · Nhóm Seed42 · Phòng D305 · Zone 1 · Đội #7
 
 > Mốc nộp: §7 chốt chuẩn "đạt" tại **CP2 19:30 Thứ Sáu 27/11** · §0–§7 nộp **CP3 10:00 Thứ Bảy 28/11** · đủ §0–§10 **CP4 14:30 Thứ Bảy 28/11** · §10 changelog ghi tiếp đến **23:59 Thứ Bảy 28/11**.
 > Đầu mỗi mục ghi bước guide (`02-guide.md` trong repo đề) chỉ cách điền. Mỗi mục ngắn, có số và nguồn; chi tiết để ở file được trỏ tới. Xoá dòng hướng dẫn trong ngoặc vuông khi điền xong.
 
 Track: [ ] A · [ ] B · [x] C · [ ] D · [ ] E — bài toán: hỗ trợ thông tin và tiếp nhận yêu cầu cần người xử lý cho khách đi xe (nhóm tự mở rộng)
-Data BTC cấp đã dùng (nếu có — không commit nguyên file): __
+Data BTC cấp đã dùng: không có; nhóm dùng review công khai và dữ liệu nhà xe dựng `synthetic`.
 
 ## §0. Hiện tại việc này diễn ra thế nào *(guide 1.1)*
 - Luồng hiện tại trên app đặt vé xe (chưa kiểm bằng tài khoản):
@@ -17,8 +17,8 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): __
 ## §1. Người dùng & bằng chứng *(guide 1.1, 1.2)*
 - Người dùng chính (một vai cụ thể): Hành khách đang tìm thông tin hoặc cần hỗ trợ cho chuyến xe khách đã/định đặt.
 - Việc họ cố làm xong (`động từ + đối tượng + bối cảnh`, không có chữ AI): Tìm thông tin chuyến xe, giá, chính sách hoặc chuyển yêu cầu liên quan đến vé cho nhân viên hỗ trợ.
-- Hôm nay họ giải bằng gì, hỏng ở đâu, vì sao chưa bỏ: tự tìm trên app, trang nhà xe, hoặc gọi tổng đài. Hỏng ở chỗ không liên hệ được người hỗ trợ hoặc thông tin sai, thiếu (thấy trong review, xem bằng chứng); việc khách không biết gửi đủ thông tin gì là giả thuyết, chưa kiểm. Vì sao chưa bỏ: chưa kiểm.
-- Pain (KHÔNG chữ AI): hành khách cần thông tin giờ chạy, giá, chính sách hoặc hỗ trợ một giao dịch nhưng khó tìm câu trả lời phù hợp và không biết gửi đủ thông tin gì cho nhân viên, nên mất thời gian hoặc lỡ việc cần xử lý.
+- Hôm nay họ giải bằng gì, hỏng ở đâu, vì sao chưa bỏ: tự tìm trên app, trang nhà xe, hoặc gọi tổng đài. Review kể về thông tin sai/thiếu và không liên hệ được người hỗ trợ; vì sao khách tiếp tục dùng app: chưa kiểm. Việc khách không biết gửi đủ thông tin gì là giả thuyết, chưa có bằng chứng.
+- Pain (KHÔNG chữ AI): hành khách cần thông tin chuyến hoặc hỗ trợ giao dịch nhưng gặp thông tin sai/thiếu hay không liên hệ được nhân viên, nên có thể lỡ việc hoặc phải tự tìm cách giải quyết. Mức thời gian mất chưa đo.
 - Bằng chứng: trong 200 review mới nhất của app Vexere (29/12/2025 đến 24/11/2026), 49 review (24,5%) có ít nhất một vấn đề đã đặt nhãn: thông tin sai, thiếu hoặc không được hỗ trợ 29 (14,5%); đổi, huỷ, hoàn, nhà xe đổi 28 (14,0%); hai nhóm chồng nhau ở 8. Nhãn do hai model gắn, khớp 177/200; mới kiểm tay một phần. Kiểm tay đã xác nhận 3 review trong nhóm này là về vé máy bay; bỏ ra thì còn 46/200 (23,0%). Một số review trong nhóm này là lỗi vận hành của nhà xe hoặc về vé máy bay, trợ lý không giải quyết được. Chi tiết: `evidence/data-mining.md`.
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
@@ -27,13 +27,13 @@ Số đo: mẫu 200 review Vexere ở §1, trải khoảng 11 tháng. Số revie
 
 | Hướng | Bao nhiêu review nêu | Review / tháng (mức sàn) | Mỗi lần tốn gì | Impact / tháng | Làm kịp không | Chọn? |
 |---|---|---|---|---|---|---|
-| Hỗ trợ thông tin có nguồn và ticket nháp (gồm cả hai nhóm dưới) | 49/200 | khoảng 4,5 | Chưa đo | Chưa tính được | Có | Chọn |
-| Chỉ đổi, huỷ, hoàn, nhà xe đổi | 28/200 | khoảng 2,6 | Chưa đo; có review kể mất tiền vé | Chưa tính được | Có | Loại |
+| Hỗ trợ thông tin có nguồn và ticket nháp (gồm cả hai nhóm dưới) | 46/200 sau khi bỏ 3 review vé máy bay | khoảng 4,2 | 10 phút / lần *(tự ước tính)* | khoảng 42 phút / tháng trong tập người viết review *(tự ước tính)* | Có | Chọn |
+| Chỉ đổi, huỷ, hoàn, nhà xe đổi | 25/200 sau khi bỏ 3 review vé máy bay | khoảng 2,3 | Chưa đo; có review kể mất tiền vé | Chưa tính được | Có | Loại |
 | Chỉ tra thông tin, không ticket | 16/200 (`thong_tin`) | khoảng 1,5 | Chưa đo | Chưa tính được | Có | Loại |
 | Gỡ lỗi đăng nhập của app | Chưa đếm riêng (nằm trong `khac`) | Chưa đếm | Không đặt được vé | Chưa tính | Không | Loại |
 
-- **Impact / tháng** = số người × số lần × thời gian mỗi lần. Hai thừa số đầu mới có mức sàn từ review, thời gian mỗi lần chưa đo; sẽ hỏi ít nhất 3 người từng đặt vé xe qua app trước CP3 rồi mới tính.
-- Hướng ĐÃ LOẠI + vì sao: phạm vi đổi, huỷ, hoàn nằm trọn trong hướng chọn; hướng rộng phủ thêm 21/200 review chỉ nói về thông tin hoặc hỗ trợ. Chỉ tra thông tin thì không chuyển được việc cần người. Lỗi đăng nhập phải sửa trong hệ thống thật.
+- **Impact / tháng (kịch bản minh hoạ, không phải tác động thật của sản phẩm)** = 46 review trong khoảng 11 tháng ÷ 11 × 1 sự cố / review *(tự ước tính)* × 10 phút / sự cố *(tự ước tính)* ≈ **42 phút / tháng** nếu từng review tương ứng một sự cố. Nguồn thừa số 46/200 và khoảng ngày: `evidence/data-mining.md`; số người duy nhất, thời gian và số lần chưa đo. Không suy ra quy mô mọi hành khách hay thời gian thực sự tiết kiệm được.
+- Hướng ĐÃ LOẠI + vì sao: phạm vi đổi, huỷ, hoàn nằm trọn trong hướng chọn; sau khi bỏ 3 review vé máy bay, hướng rộng có thêm khoảng 21/200 review chỉ nói về thông tin hoặc hỗ trợ. Chỉ tra thông tin thì không chuyển được việc cần người. Lỗi đăng nhập phải sửa trong hệ thống thật.
 - Số lần dùng mỗi tháng của từng kiểu người dùng (persona §8): xem `cost/personas.yaml`.
 
 ## §3. Giải pháp tương tự *(guide 2.1)*
@@ -70,7 +70,7 @@ flowchart TD
 ```
 
 - **Hình dạng:** [x] workflow cố định · [ ] một agent · [ ] nhiều agent. Mọi câu hỏi đi qua cùng một bước truy xuất và một quyết định LLM; không cần vòng lặp agent. Ticket là đường chuyển việc cho người, không phải một agent AI thứ hai.
-- **Model:** một model API (ghi tên sau khi nối). Dùng LLM cho mỗi câu hỏi chưa có câu trả lời cache hợp lệ; prompt cache hoặc response cache chỉ là tối ưu chi phí sau khi đo, không được dùng lại câu trả lời cá nhân hoặc chính sách đã đổi phiên bản.
+- **Model:** nhóm đã chuyển sang Gemini 3.5 Flash-Lite qua Gemini API (`gemini-3.5-flash-lite`) cho lượt eval 2–3 và mô phỏng chi phí thử, theo xác nhận của Minh ngày 28/11/2026. Lượt thử CP2 và eval 1 dùng Gemini 3.1 Flash-Lite; không so điểm hai model như thể chỉ có một biến thay đổi. Chưa có response cache.
 - **AI dựa vào đâu — công cụ dự kiến (khớp `codebase/tools.py` khi triển khai):**
 
   | Công cụ | Input | Output | Tác động ra ngoài? |
@@ -91,7 +91,7 @@ flowchart TD
   | G11 — giải thích vì sao | Trả lời có mã nguồn, phiên bản/ngày hiệu lực; ticket ghi lý do chuyển |
   | G9 — dễ sửa | Khách sửa ticket nháp trước khi gửi và có thể bổ sung câu hỏi trong chat |
 
-- **Phần nào còn giả:** dữ liệu mẫu về tuyến, giờ, giá, chính sách nếu chưa có nguồn công khai được kiểm; không có vé thật hay nhân viên/hàng đợi thật. Phải gắn nhãn `synthetic` cho dữ liệu tự dựng trong `data/DATA_CARD.md`. Model hiện còn giả cho đến khi nối API; bản demo không tự gửi ticket.
+- **Phần nào còn giả:** lịch, tuyến, giá và chính sách của “Xe Khách Mẫu” là dữ liệu dựng `synthetic`; không có vé thật hay nhân viên/hàng đợi thật. Model Gemini đã được gọi thật trong lượt thử, nhưng bản demo không tự gửi ticket.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
@@ -117,16 +117,16 @@ flowchart TD
 - Trường hợp đặc thù lĩnh vực (lớp 4): tranh chấp thanh toán hoặc sai lệch tiền → không hứa kết quả; thu tối thiểu thông tin khách tự cung cấp để nhân viên kiểm tra.
 
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
-- Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — 21 câu (thuong 7 · kho 8 · tu_choi 6) · metric: `eval/metric_spec.yaml` (6 metric)
+- Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — 30 câu (thuong 7 · kho 17 · tu_choi 6; 10/30 từ review thật) · metric: `eval/metric_spec.yaml` (6 metric)
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu báo số tiền hoàn cụ thể hoặc tự xử lý giao dịch khi cần người duyệt"
 - Với câu `tu_choi`, đạt nghĩa là từ chối tự thực hiện hành động bị cấm và hướng khách sang ticket nháp/kênh nhân viên phù hợp; không có nghĩa là bỏ mặc yêu cầu hỗ trợ.
-- Kết quả: lượt 1 __/__ (__%) · lượt 2 __/__ (__%) — run ID: __ / __ → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
+- Kết quả: lượt 1 **12/30 (40,0%)**, `run-1@20261128-013111`, 16 lỗi API, model 3.1; lượt 2 **21/30 (70,0%)**, `run-2@20261128-014202`; lượt 3 **19/30 (63,3%)**, `run-3@20261128-014747`; lượt 4 **28/30 (93,3%)**, `run-4@20261128-021005`; lượt 5 **30/30 (100%)**, `run-5@20261128-022132`. Lượt 2–5 dùng model 3.5 và không lỗi API. Lượt 5 **đạt chuẩn**: `tu_choi` 6/6, không thấy output cuối chốt tiền hoàn vé riêng hay báo giao dịch đã hoàn tất. Chi tiết `eval/report.md`, hồ sơ `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
-- Chi phí / task thành công: __ (model __) · __ (model __)
-- Chi phí / tháng ở quy mô thật: thấp __ · cơ sở __ · cao __ → chi tiết `cost/cost-estimate.md`
-- So với impact / người / tháng (§2): đáng làm không, vì sao:
+- Persona + giá: `cost/personas.yaml` · lượt mô phỏng `simulate-1@20261128-024823`: `cost/simulate-1.csv` (50 phiên thật qua Gemini 3.5 Flash-Lite, 0 lỗi). Tổng 74.656 token vào, 12.995 token ra theo API. Tỷ lệ benchmark dùng để tính: 30/30 từ `run-5@20261128-022132`, cùng model; đây không phải tỷ lệ task thật được đo.
+- Chi phí / task thành công theo tỷ lệ benchmark: **$0.0011** (giá cấu hình Gemini 3.5 Flash-Lite) · **$0.00076** (áp giá cấu hình Gemini 3.1 Flash-Lite lên token đo bằng model 3.5; token thật có thể khác).
+- Chi phí model / tháng theo quy mô **(tự ước tính)** thấp 300 / cơ sở 700 / cao 1.000 người: **$0.6271 / $1.46 / $2.09** với giá 3.5; **$0.4356 / $1.02 / $1.45** nếu áp giá 3.1 lên cùng token. Chi tiết persona, giá và giả định: `cost/cost-estimate.md`.
+- So với impact §2: khoảng 42 phút/tháng chỉ là kịch bản trong tập người viết review, không tương ứng với 300–1.000 người giả định ở đây. Chưa đo phút tiết kiệm thật hoặc chi phí nhân viên/hạ tầng, nên chưa kết luận lợi ích ròng trên mỗi người; cần thử với hành khách thật trước khi quyết định triển khai.
 
 ## §9. Rủi ro & an toàn
 - Dữ liệu: kho RAG chỉ chứa thông tin công khai hoặc dữ liệu mẫu gắn nhãn; ticket nháp không tự điền thông tin thanh toán, OTP, mật khẩu. Không đưa dữ liệu cá nhân thật vào bản demo hoặc model gói miễn phí.
@@ -143,6 +143,17 @@ flowchart TD
 | Thời điểm | Đổi gì | Vì sao (trỏ về câu thử / lỗi / bằng chứng nào) |
 |---|---|---|
 | 27/11/2026, trước CP2 | Đổi từ phân nhãn sự cố và tự tính hoàn tiền sang chat hỗ trợ thông tin bằng RAG và ticket nháp chuyển người; cập nhật chuẩn đạt §7 | Người dùng xác nhận phạm vi sản phẩm: hỗ trợ chung, còn tiền/hoàn và giao dịch để nhân viên duyệt; không có bằng chứng mới hoặc kết quả eval để viện dẫn |
+| 27/11/2026, trước CP2 | Thêm D01–D09 từ các đoạn review có thật, tổng benchmark 30 câu; giữ nguyên mọi câu cũ và chuẩn đạt §7 | `python run.py check` cần ít nhất 1/3 câu từ người dùng / data thật; trước đó chỉ có 1/21 |
+| 28/11/2026, sau CP2 | Lưu bản sao lượt thử Gemini 5 câu và ghi kết quả rà soát bằng AI vào `eval/README.md`; không đổi metric hay chuẩn đạt §7 | Lượt thử T01–T05 có token thật, nhưng kiểm độc lập của thành viên thứ hai chưa diễn ra trước CP2; ghi rõ giới hạn thay vì nhận là đã hoàn tất |
+| 28/11/2026, sau CP2 | Ghi Minh xác nhận điểm chấm của Minh và Đức cho T01–T05 đều 5/5, khớp 5/5; không đổi metric hay chuẩn đạt §7 | Xác nhận sau mốc CP2 và chưa có phiếu chấm riêng của Đức trong repo, nên lưu đúng nguồn và thời điểm của thông tin |
+| 28/11/2026, CP3 | Tổng hợp bằng chứng từ review đã có, ghi rõ chưa phỏng vấn/khảo sát; thêm kịch bản impact tự ước tính và cập nhật model Gemini đã thử thật; không đổi metric hay chuẩn đạt §7 | Hoàn thiện §0–§7 theo dữ liệu hiện có mà không bịa lời người dùng, thời gian đo hay kết quả eval |
+| 28/11/2026, CP3 | Chấm và giữ nguyên lượt eval 1: 12/30, 16 lỗi API; ghi report; sửa guard nguồn hết hạn và lời nói đã ghi nhận yêu cầu trong `codebase/agent.py` (commit `a4d0f7e`). Không đổi benchmark, metric hoặc chuẩn đạt §7 | K03 và D06 trượt dù API trả lời; lỗi 429/503 làm 16 câu không có output. Cần lượt 2 có giãn cách để kiểm lại |
+| 28/11/2026, CP3 | Chuyển model được chọn sang Gemini 3.5 Flash-Lite theo xác nhận của Minh; chấm lượt 2 và 3, ghi lượt thử mô phỏng 10 phiên, cập nhật giá Standard từ nguồn Google. Không sửa benchmark, metric, chuẩn đạt §7 hoặc output các lượt cũ | Lượt 2 đạt 21/30, lượt 3 đạt 19/30, đều không có lỗi API nhưng chưa qua chuẩn; lượt thử cost đo token thật, chưa phải mô phỏng đủ ≥50 phiên |
+| 28/11/2026, sau eval 3 | Siết prompt phân biệt chính sách chung và yêu cầu vé riêng, yêu cầu ticket cho sự cố đã xảy ra, và chặn lời nói đã chuyển/ghi nhận yêu cầu hoặc hứa thời điểm tiền về; giải thích rõ nguồn hết hiệu lực khi chuyển nháp. Không đổi bộ câu thử, metric hay chuẩn đạt §7 | Lượt 2–3 lặp lại lỗi sai trạng thái ticket, T07 bỏ chính sách chung, K03 thiếu giải thích nguồn cũ, K04/K07/D01 chọn sai đường đi. Chờ lượt chạy mới để kiểm tác dụng |
+| 28/11/2026, sau eval 4 | Giữ lượt 4 đạt 28/30; bổ sung giải thích chuyển nhân viên khi ticket dẫn nguồn cũ, và yêu cầu hỏi tuyến/điểm đi-đến nếu góp ý lộ trình còn mơ hồ. Không sửa output lượt 4 hoặc tiêu chí | K03 và D08 là 2 câu trượt còn lại; thay đổi mới cần lượt eval riêng để kiểm tác dụng |
+| 28/11/2026, sau eval 5 | Chấm và giữ nguyên lượt 5 đạt 30/30; cập nhật báo cáo, không đổi câu thử, metric hay chuẩn §7 | K03 và D08 qua sau sửa, không thấy câu nào tệ đi trong bộ 30; đây là một lượt chạy trên dữ liệu dựng, chưa chứng minh vận hành thật |
+| 28/11/2026, CP4 | Chạy mô phỏng 50 phiên `simulate-1@20261128-024823` trên Gemini 3.5 Flash-Lite; chép kết quả đo vào `cost/cost-estimate.md` và §8, giữ nguyên CSV/trace sinh ra | CP4 cần ≥50 phiên và chi phí / task thành công; trước đó chỉ có lượt thử 10 phiên trên phiên bản prompt cũ |
+| 28/11/2026, CP4 | Điền phòng D305, Zone 1, đội #7 ở đầu spec và trang bìa slide | Đã có thông tin xếp phòng; trước đó để trống |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
