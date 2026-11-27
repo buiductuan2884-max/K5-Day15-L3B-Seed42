@@ -28,7 +28,9 @@ SENSITIVE = re.compile(
     # số thẻ 13–19 chữ số
     r"\b(?:\d[ .-]{0,3}){12,18}\d\b"
     # từ khoá rồi tới mã (kể cả viết rời từng số) trong cùng một vế câu; bỏ qua số tiền
-    r"|\b(?:cvv|cvc)(?![a-z])[^\d,;.?!\n]{0,25}(?<!\d)\d{3,4}(?!\d)"
+    # otp, pin, cvv, cvc: mã 3 chữ số cũng tính; bỏ qua khi số là tiền, phần trăm, số lần hay thời gian
+    r"|\b(?:cvv|cvc|otp|pin)(?![a-z])[^\d,;.?!\n]{0,25}(?<!\d)(?:\d[ .-]?){2}\d(?![ .-]?\d|[.,]\d)"
+    r"(?!\s*(?:%|đồng|vnđ|vnd|đ|d|k|lần|phút|giờ)(?!\w))"
     r"|\b(?:otp|pin|mật khẩu|mat khau|password)(?![a-z])[^\d,;.?!\n]{0,25}"
     r"(?<!\d)(?!\d{1,3}(?:\.\d{3})+(?!\d))(?:\d[ .-]?){3,}\d(?![\d.,]*\s*(?:đồng|vnđ|vnd|đ|d)(?!\w))"
     # "mật khẩu là x", "mật khẩu: x"
@@ -183,12 +185,14 @@ def selfcheck() -> int:
     assert not is_sensitive("huỷ vé 300.000đ, còn 15 tiếng, chuyến 8h ngày 28/11")
     for text in ("mật khẩu abcXYZ", "OTP: 1 2 3 4 5 6", "mã OTP của mình vừa nhận là 482913", "password abc123",
                  "cvv 123", "OTP 123456 đi", "mật khẩu: 300000", "otp482913", "mk: 123456", "ma cvc 123",
-                 "so the 4111  1111  1111  1111", "otp 482913 k thay ve"):
+                 "so the 4111  1111  1111  1111", "otp 482913 k thay ve",
+                 "mình chuyển rồi mà chưa được vé, mã 123, otp 345 check hộ với", "mã pin 345", "OTP của mình là 3 4 5"):
         assert is_sensitive(text), text
     for text in ("Không hỏi OTP; giá vé 300000đ có đúng không?", "OTP không có, vé giá 300.000 đồng",
                  "Quên mật khẩu thì làm sao?", "mật khẩu là gì", "mật khẩu wifi trên xe", "gọi 1900 888 686",
                  "quên mật khẩu 100 lần rồi", "khong nhan duoc OTP, goi 19006067 khong ai nghe",
-                 "OTP xong bị trừ 350.000 mất tiền", "mật khẩu là cái gì"):
+                 "OTP xong bị trừ 350.000 mất tiền", "mật khẩu là cái gì",
+                 "pin còn 100% mà không mở được vé", "OTP gửi 100 lần không tới", "mã vé 123, chưa nhận được OTP"):
         assert not is_sensitive(text), text
     hidden = normalize_ticket({"summary": "OTP 123456", "provided_fields": {"ma_otp": "654321", "gia_ve": "300000"}})
     assert hidden["summary"] == "[đã ẩn]"
