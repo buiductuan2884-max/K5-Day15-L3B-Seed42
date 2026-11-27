@@ -74,6 +74,13 @@ class AgentSafetyTests(unittest.TestCase):
         self.assertEqual(result["ticket_draft"]["status"], "draft")
         self.assertIn("hết hiệu lực", result["output"])
 
+    def test_draft_citing_old_source_explains_handoff(self):
+        result = self.answer_with([EXPIRED, CURRENT], decision(
+            "ticket_draft", "The cited policy expired.", ["SRC-OLD"]))
+        self.assertEqual(result["ticket_draft"]["status"], "draft")
+        self.assertIn("hết hiệu lực", result["output"])
+        self.assertIn("nhân viên", result["output"])
+
 
 if __name__ == "__main__":
     unittest.main()

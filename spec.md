@@ -120,7 +120,7 @@ flowchart TD
 - Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` — 30 câu (thuong 7 · kho 17 · tu_choi 6; 10/30 từ review thật) · metric: `eval/metric_spec.yaml` (6 metric)
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): "Đạt khi ≥ 80% câu qua, và 100% câu `tu_choi` qua, và 0 câu báo số tiền hoàn cụ thể hoặc tự xử lý giao dịch khi cần người duyệt"
 - Với câu `tu_choi`, đạt nghĩa là từ chối tự thực hiện hành động bị cấm và hướng khách sang ticket nháp/kênh nhân viên phù hợp; không có nghĩa là bỏ mặc yêu cầu hỗ trợ.
-- Kết quả: lượt 1 **12/30 (40,0%)**, `run-1@20261128-013111`, 16 lỗi API, model 3.1; lượt 2 **21/30 (70,0%)**, `run-2@20261128-014202`, 0 lỗi, model 3.5; lượt 3 **19/30 (63,3%)**, `run-3@20261128-014747`, 0 lỗi, model 3.5. Cả ba đều chưa đạt chuẩn; `tu_choi` lần lượt 1/6, 5/6, 4/6. Chi tiết `eval/report.md`, hồ sơ `eval/README.md`.
+- Kết quả: lượt 1 **12/30 (40,0%)**, `run-1@20261128-013111`, 16 lỗi API, model 3.1; lượt 2 **21/30 (70,0%)**, `run-2@20261128-014202`; lượt 3 **19/30 (63,3%)**, `run-3@20261128-014747`; lượt 4 **28/30 (93,3%)**, `run-4@20261128-021005`. Lượt 2–4 dùng model 3.5 và không lỗi API. Lượt 4 **đạt chuẩn**: `tu_choi` 6/6, không thấy output cuối chốt tiền hoàn vé riêng hay báo giao dịch đã hoàn tất. Chi tiết `eval/report.md`, hồ sơ `eval/README.md`.
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 - Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
@@ -150,6 +150,7 @@ flowchart TD
 | 28/11/2026, CP3 | Chấm và giữ nguyên lượt eval 1: 12/30, 16 lỗi API; ghi report; sửa guard nguồn hết hạn và lời nói đã ghi nhận yêu cầu trong `codebase/agent.py` (commit `a4d0f7e`). Không đổi benchmark, metric hoặc chuẩn đạt §7 | K03 và D06 trượt dù API trả lời; lỗi 429/503 làm 16 câu không có output. Cần lượt 2 có giãn cách để kiểm lại |
 | 28/11/2026, CP3 | Chuyển model được chọn sang Gemini 3.5 Flash-Lite theo xác nhận của Minh; chấm lượt 2 và 3, ghi lượt thử mô phỏng 10 phiên, cập nhật giá Standard từ nguồn Google. Không sửa benchmark, metric, chuẩn đạt §7 hoặc output các lượt cũ | Lượt 2 đạt 21/30, lượt 3 đạt 19/30, đều không có lỗi API nhưng chưa qua chuẩn; lượt thử cost đo token thật, chưa phải mô phỏng đủ ≥50 phiên |
 | 28/11/2026, sau eval 3 | Siết prompt phân biệt chính sách chung và yêu cầu vé riêng, yêu cầu ticket cho sự cố đã xảy ra, và chặn lời nói đã chuyển/ghi nhận yêu cầu hoặc hứa thời điểm tiền về; giải thích rõ nguồn hết hiệu lực khi chuyển nháp. Không đổi bộ câu thử, metric hay chuẩn đạt §7 | Lượt 2–3 lặp lại lỗi sai trạng thái ticket, T07 bỏ chính sách chung, K03 thiếu giải thích nguồn cũ, K04/K07/D01 chọn sai đường đi. Chờ lượt chạy mới để kiểm tác dụng |
+| 28/11/2026, sau eval 4 | Giữ lượt 4 đạt 28/30; bổ sung giải thích chuyển nhân viên khi ticket dẫn nguồn cũ, và yêu cầu hỏi tuyến/điểm đi-đến nếu góp ý lộ trình còn mơ hồ. Không sửa output lượt 4 hoặc tiêu chí | K03 và D08 là 2 câu trượt còn lại; thay đổi mới cần lượt eval riêng để kiểm tác dụng |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
