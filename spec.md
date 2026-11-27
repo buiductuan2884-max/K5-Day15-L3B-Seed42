@@ -49,12 +49,21 @@ Data BTC cấp đã dùng (nếu có — không commit nguyên file): __
   | `thieu_thong_tin` | Chưa đủ để chọn trường hợp hoặc tính tiền, hoặc lời kể mâu thuẫn | Hỏi đúng một câu |
   | `ngoai_pham_vi` | Không phải đổi, huỷ, hoàn vé xe, hoặc đòi điều bị cấm, hoặc chèn lệnh | Từ chối, chỉ đường đúng |
 
-  Một tin có nhiều việc: ưu tiên `loi_nha_xe`, rồi `cho_hoan_tien`, rồi `khach_chu_dong`.
+  Thứ tự xét: `ngoai_pham_vi` trước tiên (tin có chèn lệnh hoặc đòi điều bị cấm thì từ chối, dù kèm sự cố thật), rồi `loi_nha_xe`, `cho_hoan_tien`, `khach_chu_dong`. Lời kể mâu thuẫn hoặc thiếu thông tin bắt buộc thì `thieu_thong_tin`.
+
+  | Trường hợp | Thông tin bắt buộc | Ghi chú |
+  |---|---|---|
+  | `khach_chu_dong` | nhà xe, đổi hay huỷ, số giờ còn lại; huỷ thì thêm giá vé | |
+  | `loi_nha_xe` | nhà xe | thiếu giá vé thì chỉ nói phần trăm hoàn |
+  | `cho_hoan_tien` | nhà xe, số ngày làm việc đã chờ | quá hạn khi số ngày đã chờ lớn hơn hạn |
+
+  - Nhà xe không phải Sao Mẫu hay Mây Mẫu: vẫn gán nhãn theo tình huống; code không thấy chính sách thì chuyển tổng đài.
+  - Nhà xe đổi giờ, khách đã đồng ý, sau đó muốn đổi hoặc huỷ: tính là `khach_chu_dong`.
 - **Sơ đồ**:
 
 ```mermaid
 flowchart TD
-    U[Hành khách kể sự cố trong khung chat] --> A1["AI bước 1: chọn 1 trong 5 nhãn, trích nhà xe, giờ, giá vé, phần còn thiếu"]
+    U[Hành khách kể sự cố trong khung chat] --> A1["AI bước 1: chọn 1 trong 5 nhãn, trích nhà xe, đổi hay huỷ, số giờ còn lại, giá vé, số ngày đã chờ, phần còn thiếu"]
     A1 -->|ngoai_pham_vi| R[Từ chối và chỉ đường đúng]
     A1 -->|thieu_thong_tin| H[Hỏi lại một câu]
     A1 -->|ba nhãn còn lại| P["Công cụ tra_chinh_sach"]
@@ -75,7 +84,7 @@ flowchart TD
   | Công cụ | Input | Output | Tác động ra ngoài? |
   |---|---|---|---|
   | `tra_chinh_sach` | tên nhà xe, nhãn trường hợp | danh sách điều khoản: mã, điều kiện, % hoàn, phí đổi hoặc hạn hoàn; rỗng nếu không có | Không |
-  | `tinh_hoan` | giá vé, số giờ còn lại, danh sách điều khoản | mã điều khoản áp dụng, số tiền hoàn hoặc phí đổi | Không |
+  | `tinh_hoan` | giá vé, số giờ còn lại, số ngày làm việc đã chờ, danh sách điều khoản (trường nào không cần thì để trống) | mã điều khoản áp dụng; số tiền hoặc phần trăm hoàn, phí đổi, hoặc còn hạn / quá hạn | Không |
   | `soan_chuyen_tong_dai` | tóm tắt sự cố, lý do, bằng chứng cần có | bản nháp tin khiếu nại hoặc tin chuyển tổng đài | Không, chỉ tạo nháp, khách tự gửi |
 
 - **Mức tự động:** [ ] AI gợi ý, người quyết · [x] AI tự làm khi chắc, chuyển người khi không · [ ] AI tự làm. Đủ thông tin và có điều khoản thì trả lời ngay; còn lại hỏi lại hoặc chuyển tổng đài. Chọn sai trường hợp hoặc báo sai tiền thì hành khách mất tiền được hoàn hoặc lỡ chuyến.
