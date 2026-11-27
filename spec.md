@@ -145,6 +145,7 @@ flowchart TD
 | 27/11/2026, trước CP2 | Đổi từ phân nhãn sự cố và tự tính hoàn tiền sang chat hỗ trợ thông tin bằng RAG và ticket nháp chuyển người; cập nhật chuẩn đạt §7 | Người dùng xác nhận phạm vi sản phẩm: hỗ trợ chung, còn tiền/hoàn và giao dịch để nhân viên duyệt; không có bằng chứng mới hoặc kết quả eval để viện dẫn |
 | 27/11/2026, trước CP2 | Thêm D01–D09 từ các đoạn review có thật, tổng benchmark 30 câu; giữ nguyên mọi câu cũ và chuẩn đạt §7 | `python run.py check` cần ít nhất 1/3 câu từ người dùng / data thật; trước đó chỉ có 1/21 |
 | 28/11/2026, sau CP2 | Lưu bản sao lượt thử Gemini 5 câu và ghi kết quả rà soát bằng AI vào `eval/README.md`; không đổi metric hay chuẩn đạt §7 | Lượt thử T01–T05 có token thật, nhưng kiểm độc lập của thành viên thứ hai chưa diễn ra trước CP2; ghi rõ giới hạn thay vì nhận là đã hoàn tất |
+| 28/11/2026, sau CP2 | Ghi Minh xác nhận điểm chấm của Minh và Đức cho T01–T05 đều 5/5, khớp 5/5; không đổi metric hay chuẩn đạt §7 | Xác nhận sau mốc CP2 và chưa có phiếu chấm riêng của Đức trong repo, nên lưu đúng nguồn và thời điểm của thông tin |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
