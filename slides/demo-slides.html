@@ -182,20 +182,20 @@
 </div></section>
 
 <section class="slide"><div class="paper">
-  <h1>Tiền model rất nhỏ: khoảng 0,0011 USD mỗi phiên</h1>
-  <p class="sub">50 phiên giả lập chạy thật qua API gemini-3.5-flash-lite, 0 lỗi: 74.656 token vào, 12.995 token ra.</p>
+  <h1>Tiền model rất nhỏ: khoảng 0,0016 USD mỗi task thành công</h1>
+  <p class="sub">50 phiên giả lập chạy thật qua API gemini-3.5-flash-lite, 0 lỗi: 74.656 token vào, 13.216 token ra. Tỷ lệ đạt lấy từ lượt 2: 21/30.</p>
   <hr class="rule">
   <table>
     <tr><th>Giá áp dụng</th><th class="n">Mỗi task đạt</th><th class="n">Thấp · 300 người</th><th class="n">Cơ sở · 700 người</th><th class="n">Cao · 1.000 người</th></tr>
-    <tr class="on"><td>Gemini 3.5 Flash-Lite</td><td class="n">$0.0011</td><td class="n">$0.63 / tháng</td><td class="n">$1.46 / tháng</td><td class="n">$2.09 / tháng</td></tr>
-    <tr><td>Gemini 3.1 Flash-Lite (áp giá lên token của 3.5)</td><td class="n">$0.00076</td><td class="n">$0.44 / tháng</td><td class="n">$1.02 / tháng</td><td class="n">$1.45 / tháng</td></tr>
+    <tr class="on"><td>Gemini 3.5 Flash-Lite</td><td class="n">$0.0016</td><td class="n">$0.64 / tháng</td><td class="n">$1.49 / tháng</td><td class="n">$2.13 / tháng</td></tr>
+    <tr><td>Gemini 3.1 Flash-Lite (áp giá lên token của 3.5)</td><td class="n">$0.0011</td><td class="n">$0.44 / tháng</td><td class="n">$1.03 / tháng</td><td class="n">$1.47 / tháng</td></tr>
   </table>
   <hr class="rule">
   <div class="cols" style="grid-template-columns:1fr 1fr">
-    <div><h2>Giả định <i>(tự ước tính)</i></h2><ul><li>Ba kiểu khách 50% / 30% / 20%, 1 / 2 / 3 phiên mỗi tháng</li><li>Quy mô 300 / 700 / 1.000 người</li><li>Tỷ lệ đạt lấy từ benchmark 30/30, không đo trên khách thật</li></ul></div>
+    <div><h2>Giả định <i>(tự ước tính)</i></h2><ul><li>Ba kiểu khách 50% / 30% / 20%, 1 / 2 / 3 phiên mỗi tháng</li><li>Quy mô 300 / 700 / 1.000 người</li><li>Tỷ lệ đạt là của benchmark, không đo trên khách thật; theo lượt 5 (30/30) thì còn 0,0011 USD</li></ul></div>
     <div><h2>Chưa tính được</h2><ul><li>Hạ tầng, lưu trữ, công nhân viên duyệt phiếu</li><li>Lợi ích ròng: 42 phút/tháng ở trang 2 thuộc tập người viết review, không khớp quy mô 300–1.000 người</li></ul></div>
   </div>
-  <p class="src">cost/cost-estimate.md · cost/simulate-1.csv · simulate-1@20261128-024823 · giá cấu hình trong cost/personas.yaml, 28/11/2026</p>
+  <p class="src">cost/cost-estimate.md · cost/simulate-2.csv · simulate-2@20261128-045850 · giá cấu hình trong cost/personas.yaml, 28/11/2026</p>
   <span class="no">Seed42 · 6/8</span>
 </div></section>
 
@@ -207,7 +207,7 @@
     <tr><th>Câu hỏi</th><th>Số đang có</th><th>Đủ để quyết?</th></tr>
     <tr><td>Có nỗi đau thật không?</td><td class="n">46/200 review nêu vấn đề</td><td>Đủ để thấy có, chưa biết mức độ</td></tr>
     <tr><td>Bản chạy thử có đạt chuẩn không?</td><td class="n">30/30, từ chối 6/6</td><td>Đạt trên dữ liệu dựng, một lượt</td></tr>
-    <tr><td>Tiền model có chịu được không?</td><td class="n">$1.46 / tháng ở 700 người</td><td>Được, chưa gồm người duyệt</td></tr>
+    <tr><td>Tiền model có chịu được không?</td><td class="n">$1.49 / tháng ở 700 người</td><td>Được, chưa gồm người duyệt</td></tr>
     <tr><td>Khách có dùng và tiết kiệm thời gian không?</td><td class="n">0 phỏng vấn, 0 khảo sát</td><td class="red"><b>Chưa</b></td></tr>
   </table>
   <hr class="rule">
