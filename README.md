@@ -1,37 +1,21 @@
-> Đây là khung repo nộp bài. Điền mọi chỗ `____`, giữ nguyên tên các mục. **Mục 0 xoá đi sau khi tạo repo xong.**
-> Giờ, mốc, luật, rubric: xem `README.md`, `02-guide.md`, `03-rubric.md` trong repo đề (bộ đề BTC phát).
-
-# [Tên nhóm] — [Tên lát cắt]
+# Seed42 — Trợ lý hỗ trợ khách đi xe
 
 **Thành viên, lớp, track:** xem [TEAMS.md](TEAMS.md). **Điền TEAMS.md đúng format**: khi chấm và đánh giá, BTC quét file này để ghép điểm cho từng người.
 
-*Lát cắt = phần nhỏ nhất làm xong được trong hackathon: một người dùng · một việc · một quyết định AI · một kết quả.*
+**Lát cắt:** một hành khách hỏi bộ phận hỗ trợ của nhà xe về chuyến đi hoặc vé; AI quyết định có đủ căn cứ để trả lời bằng thông tin đã truy xuất hay cần người xử lý; khách nhận câu trả lời có nguồn hoặc bản nháp ticket để bổ sung và chuyển cho nhân viên.
 
----
+## Dùng thử
 
-## 0. Tạo repo nhóm từ khung này *(guide bước 1.0 — xoá mục này khi xong)*
-
-**Hai luật:** repo **mới, công khai (Public)** · tên `K5-Day15-<lớp>-<tên nhóm>`, vd `K5-Day15-L3A-StudyPulse` (tên nhóm viết liền, không dấu). Chép **nội dung bên trong** `starter-repo/` — `README.md`, `run.py` phải nằm ngay ở trang đầu repo.
-
-**(a) Không cần terminal — làm trên web GitHub**
-1. **New repository** → tên theo mẫu → **Public** → không tick thêm gì → tạo.
-2. Trên máy mở thư mục `starter-repo/`, **bật hiện file ẩn** (Mac Finder: `Cmd + Shift + .` · Windows: View → Show → Hidden items) để thấy `.gitignore`, `.env.example`.
-3. Trên repo vừa tạo: **Add file → Upload files** → **kéo thả** tất cả file và thư mục bên trong `starter-repo/` → **Commit changes**. Kéo thả mới giữ được thư mục con; lỗi vì nhiều file quá thì tải từng thư mục.
-4. Kiểm: có `.gitignore` chưa (hay thiếu nhất). Thiếu thì **Add file → Create new file**, tên `.gitignore`, dán nội dung từ máy.
-5. Từ giờ sửa file ngay trên web (biểu tượng bút chì → Commit). Phần code vẫn cần **một** người chạy được trên máy: trước mỗi lượt chạy tải **Code → Download ZIP** về thư mục mới (mang `.env` sang), chạy xong chỉ upload file kết quả và file vừa sửa; trong lúc đang chạy không ai sửa `eval/benchmark.csv` trên web.
-
-**(b) Dùng git**
-```bash
-git clone https://github.com/<tai-khoan>/K5-Day15-L3A-TenNhom.git
-cd K5-Day15-L3A-TenNhom
-cp -R ../duong-dan-toi/starter-repo/. .      # Windows PowerShell: Copy-Item -Recurse -Force ..\duong-dan-toi\starter-repo\* .
-git status                                   # không được có .env, data-btc/
-git add -A && git commit -m "Khung repo từ starter-repo" && git push
+```
+python run.py                      # chat; ticket nháp hiện ngay dưới câu trả lời để sửa
+python codebase/app.py selfcheck   # tự kiểm phần ticket, không cần model
 ```
 
-**Xong khi:** mở link repo bằng **cửa sổ ẩn danh** thấy được file (link nộp CP1) · đã mời thành viên (Settings → Collaborators) · đã điền `TEAMS.md` và `python run.py check` không báo gì ở phần "Kiểm TEAMS.md".
+Kịch bản demo (chạy được sau khi ghép luồng và dữ liệu):
+1. Hỏi một thông tin công khai (giờ chạy hoặc giá) → câu trả lời kèm nguồn.
+2. Xin hoàn tiền một vé → ticket nháp; sửa một ô, điền ô còn thiếu, gõ `gui` → màn hình báo là gửi mô phỏng.
 
----
+Hiện trạng: giao diện chat, ticket nháp, luồng `answer`, công cụ tra dữ liệu mẫu đã ghép; chạy chế độ giả cho đến khi cấu hình model trong `.env`.
 
 ## Nhóm làm gì, khung làm gì
 
@@ -108,14 +92,14 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | **Thật** (bắt buộc từ CP3) | Model: ____ |
-|  |  |  |
+| Lời gọi AI ở quyết định trung tâm | Có code gọi API, **chưa chạy thật** | Chạy giả khi chưa cấu hình `.env`; phải thật từ CP3 |
+| Dữ liệu tuyến, giờ, giá, chính sách | Giả | Ghi nguồn và cách dựng ở `data/DATA_CARD.md` |
+| Gửi ticket cho nhân viên | Giả (mô phỏng) | Không gửi, không lưu |
+| Tra vé thật, giao dịch | Không có | Ngoài phạm vi |
 
 ## Dùng AI vào việc gì
 
-2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
-
-____
+Claude (coding agent) dựng repo, soạn nháp spec, canvas, slide, giao diện dòng lệnh và đếm thử review theo từ khoá. Thành viên phụ trách đọc và quyết định phần của mình. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md), việc chia ở [instructions.md](instructions.md).
 
 ## File mẫu — điền ở bước nào
 
