@@ -21,9 +21,14 @@ REFUND_AMOUNT = re.compile(r"(?:hoàn\s*(?:lại|tiền)?|refund)[^.!?\n]{0,60}\
 def _clean(value):
     """Remove secrets from a draft field before it reaches the UI."""
     value = str(value or "")
+    if SENSITIVE.search(value):
+        return "[thông tin nhạy cảm đã ẩn]"
     value = re.sub(r"\b(?:\d[ -]?){13,19}\b", "[đã ẩn số thẻ]", value)
-    value = re.sub(r"(?i)\b(otp|cvv|cvc|password|mật\s*khẩu|mã\s*xác\s*thực)\s*[:=]?\s*\S+", "[đã ẩn thông tin nhạy cảm]", value)
     return value.strip()[:500]
+
+
+def _label(value):
+    return " ".join(value.split())[:120]
 
 
 def _draft(text, decision):
@@ -72,7 +77,7 @@ def answer(text: str) -> dict:
                 or ACTION_CLAIM.search(message) or REFUND_AMOUNT.search(message) or SENSITIVE.search(message)):
             note("unsafe or unsupported answer")
             return _draft(text, {"message": "Nguồn chưa đủ chắc chắn để trả lời. Tôi đã tạo bản nháp để nhân viên kiểm tra."})
-        citations = "; ".join("[%s] %s (phiên bản %s)" % (i, sources[i]["source"], sources[i]["version"]) for i in dict.fromkeys(ids))
+        citations = "; ".join("[%s] %s (phiên bản %s)" % (_label(i), _label(sources[i]["source"]), _label(sources[i]["version"])) for i in dict.fromkeys(ids))
         return {"output": message.strip() + "\nNguồn: " + citations}
     if kind == "ticket_draft":
         return _draft(text, decision)
