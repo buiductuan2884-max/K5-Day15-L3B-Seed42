@@ -18,5 +18,6 @@ README của nhóm có mục "Dùng AI vào việc gì" (2–3 dòng, bắt bu�
 | Bộ câu thử ban đầu (21 câu T, K, R) + `metric_spec.yaml` + công cụ chấm `eval/auto_checks.py` | Claude (Claude Code) | Soạn câu thử, `expected`, `pass_criterion`, 6 metric khớp chuẩn §7; viết script cảnh báo mã nguồn lạ, số thẻ/OTP, câu "đã huỷ/đã hoàn" | Câu tự viết ghi `source: tu_viet`; câu từ review ghi `data_that` kèm số dòng. Không sửa `expected` sau khi chạy. Cột `pass` do người chấm | Trương Anh Đức |
 | Kịch bản phỏng vấn (`evidence/interviews/GUIDE.md`), hồ sơ đánh giá, data card, phiếu chấm độc lập | Claude (Claude Code) | Soạn câu hỏi theo guide 1.2 (chỉ hỏi chuyện đã xảy ra); soạn văn bản; tạo phiếu chấm trống từ output thật | Câu trả lời phỏng vấn và điểm chấm do Đức tự làm, AI không điền | Trương Anh Đức |
 | Slide, văn bản | Claude (Claude Code) | Soạn nháp spec, canvas, dàn slide, giao diện dòng lệnh | Người phụ trách đọc và duyệt | Bùi Đức Tuấn |
+| Web demo (`codebase/web.py`, `codebase/inbox.py`) và reflection cá nhân | Claude (Claude Code) | Viết giao diện chat web, màn nhà xe xử lý phiếu và phần tự kiểm; soạn nháp reflection của Tuấn | Tuấn chọn thiết kế, dùng thử web, sửa reflection | Bùi Đức Tuấn |
 
 **Không dùng AI để:** tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát; sửa kết quả các lượt đã chạy (`eval/run-*.csv`, `cost/simulate-*.csv`, `traces/`).

@@ -156,6 +156,8 @@ flowchart TD
 | 28/11/2026, CP4 | Điền phòng D305, Zone 1, đội #7 ở đầu spec và trang bìa slide | Đã có thông tin xếp phòng; trước đó để trống |
 | 28/11/2026, CP4 | Chạy lại mô phỏng 50 phiên `simulate-2@20261128-045850` lấy tỷ lệ đạt lượt 2 (21/30); chi phí / task thành công ghi $0.0016; cập nhật §8, `cost/cost-estimate.md` và slide. Giữ nguyên `simulate-1` | Đề CP4 yêu cầu tỷ lệ đạt của lượt 2; bản trước tính theo lượt 5 |
 | 28/11/2026, CP4 | Lớp lọc giao diện chặn mã 3 chữ số sau `otp`, `pin` (`codebase/app.py`); không đổi luồng model, câu thử hay metric | Thử tay thấy `otp 345` được gửi sang model |
+| 28/11/2026, sau CP4 | Web có thêm màn "Nhà xe": phiếu khách bấm gửi vào hộp phiếu mô phỏng trong bộ nhớ (`codebase/inbox.py`), nhân viên đổi trạng thái và phản hồi; không đổi luồng model, câu thử, metric, chuẩn đạt hay số liệu đã nộp | Phiếu trước đó dừng ở màn khách, chưa có phía người nhận để thấy hết đường đi |
+| 28/11/2026, sau demo | Ghi nhận góp ý khi demo: nên xem xét để trợ lý hỗ trợ khách mua vé trực tiếp thay vì tạo phiếu, và còn nhiều chỗ tối ưu được. Chưa làm; phạm vi §4, câu thử, metric và số liệu giữ nguyên | Mentor cho rằng mua vé trực tiếp đỡ tốn công hơn; dự án dừng ở bản này |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
