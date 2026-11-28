@@ -7,7 +7,7 @@
 | Nguồn | Trạng thái | File |
 |---|---|---|
 | Đào data | 200 review, có cách đếm và ví dụ; hai model gắn nhãn, mới kiểm tay 4 dòng | [data-mining.md](data-mining.md), [review_labels.csv](review_labels.csv), [hand_check.csv](hand_check.csv) |
-| Phỏng vấn | Chưa thực hiện; nhóm xác nhận ngày 28/11/2026 | — |
+| Phỏng vấn | Chưa thực hiện (0/3 người); nhóm xác nhận ngày 28/11/2026. Kịch bản đã soạn, Trương Anh Đức phụ trách hỏi | [interviews/GUIDE.md](interviews/GUIDE.md) |
 | Khảo sát | Chưa có câu trả lời; [bộ câu hỏi](survey/questions.md) chưa tạo thành số liệu | — |
 
 ## 2. Số chính và cách hiểu
