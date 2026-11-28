@@ -16,7 +16,7 @@
 | Số dòng / số đoạn | 25 đoạn |
 | Phiên bản / ngày lấy | `kb-2026-11-27`. Đoạn thường có `version` = `2026-11-01`; đoạn cũ ghi rõ "(hết hiệu lực)" trong `version` |
 | Nhãn | `synthetic` (ghi trong `_meta.label` của file và trong `source` của từng đoạn) |
-| Người kiểm | Trương Anh Đức đọc lại đủ 25/25 đoạn; chạy tay `search_knowledge` với 21 câu thử cùng 3 câu ngoài phạm vi và ghi lại kết quả |
+| Người kiểm | Kho do Claude Code soạn theo yêu cầu của Trương Anh Đức. Đã chạy `search_knowledge` với 21 câu thử ban đầu và 3 câu ngoài phạm vi để chỉnh ngưỡng. Đức đọc lại và xác nhận: 25/25 đoạn *(Đức tự điền)* |
 | Giới hạn | Không có tình trạng chỗ trống, không có giá theo ngày, không có dữ liệu đặt chỗ hay vé thật, nên mọi câu về vé cụ thể đều phải chuyển ticket. Tra cứu theo từ khoá nên có thể trả thêm đoạn liên quan yếu (vd hỏi Hải Phòng vẫn kèm lịch Ninh Bình), và model phải tự bỏ. Câu hỏi về địa danh ngoài kho (vd Đà Nẵng) vẫn có thể ra các đoạn khác cùng "Hà Nội"; đoạn `XKM-TUYEN-00` giúp model nói "không có tuyến". Chỉ có tiếng Việt |
 
 ## Dataset 2 · Bộ câu thử `eval/benchmark.csv`
@@ -28,13 +28,13 @@
 | Số dòng | 30 câu: `thuong` 7 · `kho` 17 · `tu_choi` 6 (gồm 3 câu tấn công R03, R04, R05); data thật 10/30 = 1/3 |
 | Giới hạn | Review đến từ app đặt vé trung gian, không phải khách của nhà xe dựng; nhiều câu là phàn nàn sau giao dịch và không thể kiểm tra sự việc thật từ dữ liệu công khai. Các câu D01–D09 chỉ kiểm cách hỏi lại hoặc chuyển người, không được coi là bằng chứng về lịch/giá/chính sách của nhà xe mẫu. |
 
-## Dataset 3 · Review Google Play của Vexere (bằng chứng pain — đang làm)
+## Dataset 3 · Review Google Play của Vexere (bằng chứng pain — đã gắn nhãn 200 review)
 
 | | |
 |---|---|
 | Dùng để làm gì | Đào bằng chứng pain (`evidence/data-mining.md`), là nguồn cho câu thử `data_that` |
 | Từ đâu | Review công khai trên Google Play của app Vexere (`com.vexere.vexere`). Thu ngày 27/11/2026, không lấy tên người viết |
-| Xử lý | Hai model gắn nhãn độc lập, chỉ tính nhãn trùng (chưa kiểm tay) vào `evidence/review_labels.csv`: không chép tên người viết, trích tối đa 2 câu mỗi review. Đếm bằng `python evidence/count_reviews.py` |
+| Xử lý | Hai model gắn nhãn độc lập, chỉ tính nhãn trùng (khớp 177/200; mới kiểm tay 4 dòng ở `evidence/hand_check.csv`, trong đó 3 dòng là vé máy bay, ngoài phạm vi) vào `evidence/review_labels.csv`: không chép tên người viết, trích tối đa 2 câu mỗi review. Đếm bằng `python evidence/count_reviews.py` |
 | Số dòng | 200 review mới nhất (29/12/2025 đến 24/11/2026), thu bằng `evidence/fetch_reviews.py`, nhãn ở `evidence/review_labels.csv`. 49/200 có nhãn đau |
 | Nhãn | thật (dữ liệu công khai). Repo chỉ giữ số đã tổng hợp và trích ngắn |
 | Giới hạn | Người viết review thường đang bực, nên lệch về phía phàn nàn. Một app trung gian; có review về vé máy bay và lỗi vận hành của nhà xe nằm trong số đã đếm; **không** chứng minh trợ lý làm giảm vấn đề |

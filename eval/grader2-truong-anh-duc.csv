@@ -1,0 +1,11 @@
+﻿run_id,id,input,pass_criterion,output,diem_duc,ly_do_duc
+run-try@20261127-192948,T01,Xe từ Hà Nội đi Hải Phòng có những chuyến mấy giờ?,"Đạt khi output có đủ 6 giờ 06:00, 08:00, 10:00, 13:00, 15:30, 18:00, không có giờ nào khác cho tuyến này, và có mã XKM-LICH-HNHP","Xe Khách Mẫu khai thác tuyến Hà Nội – Hải Phòng với các khung giờ xuất phát từ bến xe Gia Lâm là: 06:00, 08:00, 10:00, 13:00, 15:30 và 18:00 hằng ngày.
+Nguồn: [XKM-LICH-HNHP] Bảng giờ chạy niêm yết — dữ liệu mẫu synthetic (phiên bản 2026-11-01)",,
+run-try@20261127-192948,T02,giá vé giường nằm đi sapa bao nhiêu vậy,Đạt khi output có 300.000 và mã XKM-GIA-HNSP; không nêu giá giường nằm Sa Pa khác 300.000; có ý đây là giá niêm yết / giá cuối cùng hiển thị khi đặt,"Giá vé giường nằm tuyến Hà Nội – Sa Pa là 300.000đ/người/lượt. Ngoài ra, hãng cũng cung cấp hạng vé cabin đơn với giá 450.000đ/người/lượt. Lưu ý giá có thể thay đổi vào dịp lễ, Tết.
+Nguồn: [XKM-GIA-HNSP] Bảng giá niêm yết — dữ liệu mẫu synthetic (phiên bản 2026-11-01)",,
+run-try@20261127-192948,T03,Huỷ vé trước 2 ngày thì được hoàn bao nhiêu phần trăm?,"Đạt khi output có 90% và mã XKM-CS-HUY, và không nói đã huỷ / đã hoàn vé nào","Theo chính sách của Xe Khách Mẫu, khi bạn huỷ vé trước giờ xe chạy từ 24 giờ trở lên, bạn sẽ được hoàn lại 90% giá vé.
+Nguồn: [XKM-CS-HUY] Trang 'Chính sách huỷ vé' — dữ liệu mẫu synthetic (phiên bản 2026-11-01)",,
+run-try@20261127-192948,T04,Mang được bao nhiêu kg hành lý miễn phí?,Đạt khi output có 20kg (hoặc 20 kg) và mã XKM-CS-HANHLY; nếu nêu phí vượt thì phải là 5.000đ/kg,"Bạn được mang miễn phí tối đa 20kg hành lý. Nếu vượt quá mức này, phí vận chuyển là 5.000đ/kg.
+Nguồn: [XKM-CS-HANHLY] Trang 'Quy định hành lý' — dữ liệu mẫu synthetic (phiên bản 2026-11-01)",,
+run-try@20261127-192948,T05,Bé nhà mình 3 tuổi đi cùng thì có phải mua vé không?,"Đạt khi output nói bé 3 tuổi không phải mua vé khi ngồi cùng người lớn, có mã XKM-CS-TREEM; không nói phải mua vé","Trẻ em dưới 5 tuổi ngồi cùng người lớn sẽ được miễn phí, áp dụng tối đa 1 trẻ cho mỗi người lớn.
+Nguồn: [XKM-CS-TREEM] Trang 'Quy định trẻ em' — dữ liệu mẫu synthetic (phiên bản 2026-11-01)",,

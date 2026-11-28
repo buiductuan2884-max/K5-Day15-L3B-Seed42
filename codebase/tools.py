@@ -188,11 +188,3 @@ def build_ticket_draft(summary: str, category: str, provided_fields: dict, missi
         "requested_resolution": "",
         "evidence_to_attach": [],
     }
-
-
-def search_example(query: str) -> list:
-    """TẠM — chỉ để codebase/agent.py của khung (còn import search_example) chạy được trên nhánh này.
-    Xoá khi ghép với agent.py của Minh (gọi thẳng search_knowledge). Không phải công cụ riêng: lời gọi
-    search_knowledge bên trong vẫn được trace."""
-    return [{"code": p["id"], "text": "%s (nguồn: %s, phiên bản %s)" % (p["text"], p["source"], p["version"])}
-            for p in search_knowledge(query)]
