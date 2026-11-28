@@ -11,7 +11,7 @@ python run.py                      # chat; ticket nháp hiện ngay dưới câu
 python codebase/app.py selfcheck   # tự kiểm phần ticket, không cần model
 ```
 
-Giao diện web (tuỳ chọn), hai chế độ xem "Khách hàng" và "Trace / log" dùng chung một cuộc trò chuyện:
+Giao diện web (tuỳ chọn). Phía khách có hai chế độ xem "Khách hàng" và "Trace / log" dùng chung một cuộc trò chuyện. Nút ở góc trái đổi sang màn "Nhà xe" để nhân viên xem phiếu khách gửi, đổi trạng thái và phản hồi. Khách bấm "Xem cập nhật" để đọc. Phiếu chỉ nằm trong bộ nhớ máy chủ, tối đa 100 phiếu, và mất khi máy chủ khởi động lại. Cách chạy:
 
 ```
 python -m pip install streamlit==1.67.0
@@ -25,7 +25,7 @@ Kịch bản demo (chạy được sau khi ghép luồng và dữ liệu):
 1. Hỏi một thông tin công khai (giờ chạy hoặc giá) → câu trả lời kèm nguồn.
 2. Xin hoàn tiền một vé → ticket nháp; sửa một ô, điền ô còn thiếu, gõ `gui` → màn hình báo là gửi mô phỏng.
 
-Hiện trạng: giao diện chat, ticket nháp, luồng `answer`, công cụ tra dữ liệu mẫu đã ghép. Nhóm đã chạy bộ 30 câu với Gemini 3.1 Flash-Lite (lượt 1) và Gemini 3.5 Flash-Lite (lượt 2–5); kết quả xem [eval/report.md](eval/report.md). Mỗi máy cần cấu hình Gemini trong `.env` cục bộ để chạy thật. Dữ liệu nhà xe vẫn là `synthetic`, ticket không được gửi đi đâu.
+Hiện trạng: giao diện chat, ticket nháp, luồng `answer`, công cụ tra dữ liệu mẫu đã ghép. Nhóm đã chạy bộ 30 câu với Gemini 3.1 Flash-Lite (lượt 1) và Gemini 3.5 Flash-Lite (lượt 2–5); kết quả xem [eval/report.md](eval/report.md). Mỗi máy cần cấu hình Gemini trong `.env` cục bộ để chạy thật. Dữ liệu nhà xe vẫn là `synthetic`, ticket không được gửi tới hệ thống thật nào: bản dòng lệnh chỉ mô phỏng, bản web đưa vào hộp phiếu thử.
 
 ## Nhóm làm gì, khung làm gì
 
@@ -104,12 +104,12 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 |---|---|---|
 | Lời gọi AI ở quyết định trung tâm | Gemini 3.5 Flash-Lite đã chạy thật 30 câu/lượt trên lượt 2–3 | `eval/run-2.csv`, `eval/run-3.csv`; máy chưa có `.env` vẫn chạy giả |
 | Dữ liệu tuyến, giờ, giá, chính sách | Giả | Ghi nguồn và cách dựng ở `data/DATA_CARD.md` |
-| Gửi ticket cho nhân viên | Giả (mô phỏng) | Không gửi, không lưu |
+| Gửi ticket cho nhân viên | Giả (mô phỏng) | Dòng lệnh: không gửi, không lưu. Web: hộp phiếu thử trong bộ nhớ (`codebase/inbox.py`), không ghi đĩa, không nối hệ thống nhà xe |
 | Tra vé thật, giao dịch | Không có | Ngoài phạm vi |
 
 ## Dùng AI vào việc gì
 
-Claude (coding agent) dựng repo, soạn nháp spec, canvas, slide, giao diện dòng lệnh và đếm thử review theo từ khoá. Thành viên phụ trách đọc và quyết định phần của mình. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md), việc chia ở [instructions.md](instructions.md).
+Claude (coding agent) dựng repo, soạn nháp spec, canvas, slide, giao diện dòng lệnh, giao diện web (gồm màn nhà xe) và đếm thử review theo từ khoá. Thành viên phụ trách đọc và quyết định phần của mình. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md), việc chia ở [instructions.md](instructions.md).
 
 ## File mẫu — điền ở bước nào
 

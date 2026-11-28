@@ -70,7 +70,7 @@ def normalize_ticket(raw):
             "requested_resolution": hide(raw.get("requested_resolution") or ""),
             "evidence_to_attach": [hide(x) for x in evidence] if isinstance(evidence, list) else [],
             "provided_fields": {str(k): hide(v, str(k)) for k, v in provided.items()} if isinstance(provided, dict) else {},
-            "missing_fields": [str(x) for x in missing] if isinstance(missing, list) else []}
+            "missing_fields": list(dict.fromkeys(str(x) for x in missing)) if isinstance(missing, list) else []}
 
 
 def set_field(ticket, row, value):
@@ -197,6 +197,7 @@ def selfcheck() -> int:
     hidden = normalize_ticket({"summary": "OTP 123456", "provided_fields": {"ma_otp": "654321", "gia_ve": "300000"}})
     assert hidden["summary"] == "[đã ẩn]"
     assert hidden["provided_fields"] == {"ma_otp": "[đã ẩn]", "gia_ve": "300000"}
+    assert normalize_ticket({"missing_fields": ["ngay_di", "ngay_di"]})["missing_fields"] == ["ngay_di"]
     raw = {"summary": "Xin hoàn tiền", "missing_fields": ["ngay_di"], "provided_fields": None}
     inputs = iter(["9", "5", "otp 998877", "5", "28/11", "4", "ảnh vé; tin nhắn", "gui", "co"])
     t = edit_ticket(raw, ask=lambda _: next(inputs))
